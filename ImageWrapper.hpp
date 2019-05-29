@@ -1,5 +1,7 @@
+#include <stdexcept>
+
 template <typename T>
-ImageWrapper<T>::ImageWrapper(int x_size, int y_size=0, int z_size=0){
+ImageWrapper<T>::ImageWrapper(int x_size, int y_size, int z_size){
     this->m_x = x_size;
     this->m_y = y_size;
     this->m_z = z_size;
@@ -21,12 +23,12 @@ ImageWrapper<T>::~ImageWrapper(){
 }
 
 template <typename T>
-ImageWrapper<T>::ImageWrapper(const ImageWrapper& array){
+ImageWrapper<T>::ImageWrapper(const ImageWrapper<T>& array){
     this->m_x = array.m_x;
     this->m_y = array.m_y;
     this->m_z = array.m_z;
 
-    long size = x_size * y_size * z_size;
+    long size = this->m_x * this->m_y * this->m_z;
 
     this->m_array = new T[size];
 
@@ -36,12 +38,12 @@ ImageWrapper<T>::ImageWrapper(const ImageWrapper& array){
 }
 
 template <typename T>
-ImageWrapper& ImageWrapper<T>::operator=(const ImageWrapper& rhs){
+ImageWrapper<T>& ImageWrapper<T>::operator=(const ImageWrapper<T>& rhs){
     this->m_x = rhs.m_x;
     this->m_y = rhs.m_y;
     this->m_z = rhs.m_z;
 
-    long size = x_size * y_size * z_size;
+    long size = this->m_x * this->m_y * this->m_z;
 
     delete[] this->m_array;
 
@@ -50,25 +52,45 @@ ImageWrapper& ImageWrapper<T>::operator=(const ImageWrapper& rhs){
     for(long i = 0; i < size; i++){
         this->m_array[i] = rhs.m_array[i];
     }
+
+    return *this;
 }
 
 template <typename T>
 const T& ImageWrapper<T>::get(int x, int y, int z) const{
-    if(0 <= x && 0 <= y && 0 <= z && x < this->m_x && y < this->m_y && z < this->m_z){
+    if(x < 0 || m_x <= x){
+        throw std::out_of_range("X");
+    } else if(y < 0 || m_y <= y){
+        throw std::out_of_range("Y");
+    } else if(z < 0 || m_z <= z){
+        throw std::out_of_range("Z");
+    } else {
         return this->m_array[x * this->m_y * this->m_z + y * this->m_z + z];
     }
 }
 
 template <typename T>
 T& ImageWrapper<T>::get(int x, int y, int z){
-    if(0 <= x && 0 <= y && 0 <= z && x < this->m_x && y < this->m_y && z < this->m_z){
+    if(x < 0 || m_x <= x){
+        throw std::out_of_range("X");
+    } else if(y < 0 || m_y <= y){
+        throw std::out_of_range("Y");
+    } else if(z < 0 || m_z <= z){
+        throw std::out_of_range("Z");
+    } else {
         return this->m_array[x * this->m_y * this->m_z + y * this->m_z + z];
     }
 }
 
 template <typename T>
-void ImageWrapper<T>::set(int x, int y, int z, const T& value){
-    if(0 <= x && 0 <= y && 0 <= z && x < this->m_x && y < this->m_y && z < this->m_z){
+void ImageWrapper<T>::set(const T& value, int x, int y, int z){
+    if(x < 0 || m_x <= x){
+        throw std::out_of_range("X");
+    } else if(y < 0 || m_y <= y){
+        throw std::out_of_range("Y");
+    } else if(z < 0 || m_z <= z){
+        throw std::out_of_range("Z");
+    } else {
         this->m_array[x * this->m_y * this->m_z + y * this->m_z + z] = value;
     }
 }
