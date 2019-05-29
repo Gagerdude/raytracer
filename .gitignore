@@ -1,0 +1,5 @@
+# Object / Compiled files
+*.o
+
+# Visual Studio Code config folder
+.vscode
