@@ -22,12 +22,17 @@ class ImageWrapper{
         int x() const { return m_x; };
         int y() const { return m_y; };
         int z() const { return m_z; };
+
+        // array access
+        T* data() { return m_array; };
     private:
         // internal 1D array used to store 3D array
         T* m_array;
 
         // internal sizes of the logical 3D array
         int m_x, m_y, m_z;
+
+        long index(int x, int y, int z);
 };
 
 #include "ImageWrapper.hpp"
