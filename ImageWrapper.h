@@ -16,7 +16,7 @@ class ImageWrapper{
         const T& get(int x, int y=0, int z=0) const;
         T& get(int x, int y=0, int z=0);
 
-        void set(int x, int y=0, int z=0, const T& value);
+        void set(const T& value, int x, int y=0, int z=0);
     private:
         // internal 1D array used to store 3D array
         T* m_array;
@@ -25,6 +25,6 @@ class ImageWrapper{
         int m_x, m_y, m_z;
 };
 
-#include "ImageWrapper.h"
+#include "ImageWrapper.hpp"
 
 #endif
