@@ -1,6 +1,8 @@
 #include "PNGWriter.h"
 #include <cstring>
 
+#include <iostream>
+
 PNGWriter::PNGWriter(std::string fileName){
     this->m_file = fileName;
 
@@ -18,6 +20,7 @@ void PNGWriter::write(ImageWrapper<unsigned char> image){
     // setup image dimensions
     this->m_image.width = image.x();
     this->m_image.height = image.y();
+    std::cout << image.x() << ' ' << image.y();
     if(image.z() == 3){
         this->m_image.format = PNG_FORMAT_RGB;
     } else if (image.z() == 4){
@@ -26,6 +29,6 @@ void PNGWriter::write(ImageWrapper<unsigned char> image){
 
     png_image_write_to_file(
         &this->m_image, this->m_file.c_str(), false, (void*)image.data(),
-        -1 * image.y() * image.z(), nullptr
+        -1 * image.x() * image.z(), nullptr
     );
 }
