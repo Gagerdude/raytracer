@@ -65,7 +65,7 @@ const T& ImageWrapper<T>::get(int x, int y, int z) const{
     } else if(z < 0 || m_z <= z){
         throw std::out_of_range("Z");
     } else {
-        return this->m_array[x * this->m_y * this->m_z + y * this->m_z + z];
+        return this->m_array[index(x, y, z)];
     }
 }
 
@@ -78,7 +78,7 @@ T& ImageWrapper<T>::get(int x, int y, int z){
     } else if(z < 0 || m_z <= z){
         throw std::out_of_range("Z");
     } else {
-        return this->m_array[x * this->m_y * this->m_z + y * this->m_z + z];
+        return this->m_array[index(x, y, z)];
     }
 }
 
@@ -91,6 +91,11 @@ void ImageWrapper<T>::set(const T& value, int x, int y, int z){
     } else if(z < 0 || m_z <= z){
         throw std::out_of_range("Z");
     } else {
-        this->m_array[x * this->m_y * this->m_z + y * this->m_z + z] = value;
+        this->m_array[index(x, y, z)] = value;
     }
+}
+
+template <typename T>
+long ImageWrapper<T>::index(int x, int y, int z){
+    return(y * this->m_x * this->m_z + x * this->m_z + z);
 }
