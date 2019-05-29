@@ -16,7 +16,7 @@ class 3DArrayWrapper{
         const T& get(int x, int y=0, int z=0) const;
         T& get(int x, int y=0, int z=0);
 
-        void set(int x, int y=0, int z=0);
+        void set(int x, int y=0, int z=0, const T& value);
     private:
         // internal 1D array used to store 3D array
         T* m_array;
@@ -24,5 +24,7 @@ class 3DArrayWrapper{
         // internal sizes of the logical 3D array
         int m_x, m_y, m_z;
 };
+
+#include "3DArrayWrapper.h"
 
 #endif
