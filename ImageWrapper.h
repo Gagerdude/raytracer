@@ -1,16 +1,16 @@
-#ifndef _3DARRAYWRAPPER_H
-#define _3DARRAYWRAPPER_H
+#ifndef IMAGEWRAPPER_H
+#define IMAGEWRAPPER_H
 
 template <typename T>
-class 3DArrayWrapper{
+class ImageWrapper{
     public:
         // constructor/destructor, need at least one dimension of size
-        3DArrayWrapper(int x_size, int y_size=0, int z_size=0);
-        ~3DArrayWrapper();
+        ImageWrapper(int x_size, int y_size=0, int z_size=0);
+        ~ImageWrapper();
 
         // copy constructor and assignment overload
-        3DArrayWrapper(const 3DArrayWrapper& array);
-        3DArrayWrapper& operator=(const 3DArrayWrapper& rhs);
+        ImageWrapper(const ImageWrapper& array);
+        ImageWrapper& operator=(const ImageWrapper& rhs);
 
         // getter and setter for array elements
         const T& get(int x, int y=0, int z=0) const;
@@ -25,6 +25,6 @@ class 3DArrayWrapper{
         int m_x, m_y, m_z;
 };
 
-#include "3DArrayWrapper.h"
+#include "ImageWrapper.h"
 
 #endif
