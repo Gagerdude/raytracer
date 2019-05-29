@@ -17,6 +17,11 @@ class ImageWrapper{
         T& get(int x, int y=0, int z=0);
 
         void set(const T& value, int x, int y=0, int z=0);
+
+        // size accessors
+        int x() const { return m_x; };
+        int y() const { return m_y; };
+        int z() const { return m_z; };
     private:
         // internal 1D array used to store 3D array
         T* m_array;
