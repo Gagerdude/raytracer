@@ -119,27 +119,51 @@ vec3 vec3::operator/(float rhs) const{
 }
 
 vec3& vec3::operator+=(const vec3& rhs){
-	
+	this->m_array[0] += rhs.m_array[0];
+	this->m_array[1] += rhs.m_array[1];
+	this->m_array[2] += rhs.m_array[2];
+
+    return *this;
 }
 
 vec3& vec3::operator-=(const vec3& rhs){
-	
+	this->m_array[0] -= rhs.m_array[0];
+	this->m_array[1] -= rhs.m_array[1];
+	this->m_array[2] -= rhs.m_array[2];
+
+    return *this;
 }
 
 vec3& vec3::operator*=(const vec3& rhs){
-	
+	this->m_array[0] *= rhs.m_array[0];
+	this->m_array[1] *= rhs.m_array[1];
+	this->m_array[2] *= rhs.m_array[2];
+
+    return *this;
 }
 
 vec3& vec3::operator/=(const vec3& rhs){
-	
+	this->m_array[0] /= rhs.m_array[0];
+	this->m_array[1] /= rhs.m_array[1];
+	this->m_array[2] /= rhs.m_array[2];
+
+    return *this;
 }
 
 vec3& vec3::operator*=(float rhs){
-	
+	this->m_array[0] *= rhs;
+	this->m_array[1] *= rhs;
+	this->m_array[2] *= rhs;
+
+    return *this;
 }
 
 vec3& vec3::operator/=(float rhs){
-	
+	this->m_array[0] /= rhs;
+	this->m_array[1] /= rhs;
+	this->m_array[2] /= rhs;
+
+    return *this;
 }
 
 float vec3::x() const{
