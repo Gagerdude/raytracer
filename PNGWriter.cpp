@@ -52,10 +52,8 @@ void PNGWriter::write(ImageWrapper<float> image){
             for(int k = 0; k < image.z(); k++){
                 // clamp the value to be between 0 and 255
                 if(image.get(i, j, k) >= 1){
-                    std::cout << "1" << std::endl;
                     scaled_image.set(255, i, j, k);
                 } else if(image.get(i, j, k) <= 0){
-                    std::cout << "0" << std::endl;
                     scaled_image.set(0, i, j, k);
                 } else {
                     scaled_image.set(image.get(i, j, k) * 255, i, j, k);
