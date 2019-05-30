@@ -25,6 +25,8 @@ vec3& vec3::operator=(const vec3& vec){
 	this->m_array[0] = vec.m_array[0];
 	this->m_array[1] = vec.m_array[1];
 	this->m_array[2] = vec.m_array[2];
+
+    return *this;
 }
 
 vec3 vec3::operator-(){
