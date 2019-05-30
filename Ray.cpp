@@ -14,7 +14,7 @@ vec3 Ray::origin() const{
 }
 
 vec3 Ray::direction() const{
-    return this->m_origin;
+    return this->m_direction;
 }
 
 vec3 Ray::point_on_ray(float t){
