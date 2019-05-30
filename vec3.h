@@ -51,4 +51,6 @@ class vec3{
         float m_array[3];
 };
 
+vec3 operator*(float lhs, const vec3& rhs);
+
 #endif
