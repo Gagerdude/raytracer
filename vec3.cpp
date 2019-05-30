@@ -52,7 +52,7 @@ float& vec3::operator[](int index){
     return this->m_array[index];
 }
 
-vec3 vec3::operator+(const vec3& rhs){
+vec3 vec3::operator+(const vec3& rhs) const{
     vec3 sum(
         this->m_array[0] + rhs.m_array[0],
         this->m_array[1] + rhs.m_array[1],
@@ -62,7 +62,7 @@ vec3 vec3::operator+(const vec3& rhs){
     return sum;
 }
 
-vec3 vec3::operator-(const vec3& rhs){
+vec3 vec3::operator-(const vec3& rhs) const{
     vec3 diff(
         this->m_array[0] - rhs.m_array[0],
         this->m_array[1] - rhs.m_array[1],
@@ -72,7 +72,7 @@ vec3 vec3::operator-(const vec3& rhs){
     return diff;
 }
 
-vec3 vec3::operator*(const vec3& rhs){
+vec3 vec3::operator*(const vec3& rhs) const{
     vec3 product(
         this->m_array[0] * rhs.m_array[0],
         this->m_array[1] * rhs.m_array[1],
@@ -82,7 +82,7 @@ vec3 vec3::operator*(const vec3& rhs){
     return product;
 }
 
-vec3 vec3::operator/(const vec3& rhs){
+vec3 vec3::operator/(const vec3& rhs) const{
     vec3 quotient(
         this->m_array[0] * rhs.m_array[0],
         this->m_array[1] * rhs.m_array[1],
@@ -92,7 +92,7 @@ vec3 vec3::operator/(const vec3& rhs){
     return quotient;
 }
 
-vec3 vec3::operator*(float rhs){
+vec3 vec3::operator*(float rhs) const{
     vec3 product(
         this->m_array[0] * rhs,
         this->m_array[1] * rhs,
@@ -108,7 +108,7 @@ vec3 operator*(float lhs, const vec3& rhs){
     return product;
 }
 
-vec3 vec3::operator/(float rhs){
+vec3 vec3::operator/(float rhs) const{
     vec3 quotient(
         this->m_array[0] * rhs,
         this->m_array[1] * rhs,

@@ -17,13 +17,13 @@ class vec3{
         float operator[](int index) const;
         float& operator[](int index);
 
-        vec3 operator+(const vec3& rhs);
-        vec3 operator-(const vec3& rhs);
-        vec3 operator*(const vec3& rhs);
-        vec3 operator/(const vec3& rhs);
+        vec3 operator+(const vec3& rhs) const;
+        vec3 operator-(const vec3& rhs) const;
+        vec3 operator*(const vec3& rhs) const;
+        vec3 operator/(const vec3& rhs) const;
         
-        vec3 operator*(float rhs);
-        vec3 operator/(float rhs);
+        vec3 operator*(float rhs) const;
+        vec3 operator/(float rhs) const;
 
         vec3& operator+=(const vec3& rhs);
         vec3& operator-=(const vec3& rhs);
