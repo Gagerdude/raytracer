@@ -215,6 +215,10 @@ vec3& vec3::normalize(){
     return *this;
 }
 
+vec3 vec3::normalized() const{
+    return *this / this->length();
+}
+
 float dot(const vec3& lhs, const vec3& rhs){
     return (
         lhs.x() * rhs.x() +

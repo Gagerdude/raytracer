@@ -46,6 +46,7 @@ class vec3{
         float length_squared() const;
 
         vec3& normalize();
+        vec3 normalized() const;
 
     private:
         float m_array[3];
