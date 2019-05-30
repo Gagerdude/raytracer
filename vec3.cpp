@@ -1,6 +1,7 @@
 #include "vec3.h"
 
 #include <stdexcept>
+#include <math.h>
 
 vec3::vec3(){
 	this->m_array[0] = 0;
@@ -167,37 +168,47 @@ vec3& vec3::operator/=(float rhs){
 }
 
 float vec3::x() const{
-	
+	return this->m_array[0];
 }
 
 float vec3::y() const{
-	
+	return this->m_array[1];
 }
 
 float vec3::z() const{
-	
+	return this->m_array[2];
 }
 
 float vec3::r() const{
-	
+	return this->m_array[0];
 }
 
 float vec3::g() const{
-	
+	return this->m_array[1];
 }
 
 float vec3::b() const{
-	
+	return this->m_array[2];
 }
 
 float vec3::length() const{
-	
+	return sqrt(
+        this->m_array[0] * this->m_array[0] + 
+        this->m_array[1] * this->m_array[1] + 
+        this->m_array[2] * this->m_array[2]
+    );
 }
 
 float vec3::length_squared() const{
-	
+	return (
+        this->m_array[0] * this->m_array[0] + 
+        this->m_array[1] * this->m_array[1] + 
+        this->m_array[2] * this->m_array[2]
+    );
 }
 
 vec3& vec3::normalize(){
-	
+	*this /= this->length();
+
+    return *this;
 }
