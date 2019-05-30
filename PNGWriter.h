@@ -12,6 +12,7 @@ class PNGWriter {
         ~PNGWriter();
 
         void write(ImageWrapper<unsigned char> image);
+        void write(ImageWrapper<float> image);
 
     private:
         png_image m_image;

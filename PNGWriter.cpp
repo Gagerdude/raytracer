@@ -32,3 +32,41 @@ void PNGWriter::write(ImageWrapper<unsigned char> image){
         -1 * image.x() * image.z(), nullptr
     );
 }
+
+void PNGWriter::write(ImageWrapper<float> image){
+    // setup image dimensions
+    this->m_image.width = image.x();
+    this->m_image.height = image.y();
+    
+    if(image.z() == 3){
+        this->m_image.format = PNG_FORMAT_RGB;
+    } else if (image.z() == 4){
+        this->m_image.format = PNG_FORMAT_RGBA;
+    }
+
+    // take the floats, and scale them to 8 bit values
+    ImageWrapper<unsigned char> scaled_image(image.x(), image.y(), image.z());
+
+    for(int i = 0; i < image.x(); i++){
+        for(int j = 0; j < image.y(); j++){
+            for(int k = 0; k < image.z(); k++){
+                // clamp the value to be between 0 and 255
+                if(image.get(i, j, k) >= 1){
+                    std::cout << "1" << std::endl;
+                    scaled_image.set(255, i, j, k);
+                } else if(image.get(i, j, k) <= 0){
+                    std::cout << "0" << std::endl;
+                    scaled_image.set(0, i, j, k);
+                } else {
+                    scaled_image.set(image.get(i, j, k) * 255, i, j, k);
+                }
+            }
+        }
+    }
+
+    // write to the png file
+    png_image_write_to_file(
+        &this->m_image, this->m_file.c_str(), false, (void*)scaled_image.data(),
+        -1 * scaled_image.x() * scaled_image.z(), nullptr
+    );
+}
