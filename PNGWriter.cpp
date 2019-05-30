@@ -20,7 +20,7 @@ void PNGWriter::write(ImageWrapper<unsigned char> image){
     // setup image dimensions
     this->m_image.width = image.x();
     this->m_image.height = image.y();
-    std::cout << image.x() << ' ' << image.y();
+    
     if(image.z() == 3){
         this->m_image.format = PNG_FORMAT_RGB;
     } else if (image.z() == 4){
