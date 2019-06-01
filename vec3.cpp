@@ -113,9 +113,9 @@ vec3 operator*(float lhs, const vec3& rhs){
 
 vec3 vec3::operator/(float rhs) const{
     vec3 quotient(
-        this->m_array[0] * rhs,
-        this->m_array[1] * rhs,
-        this->m_array[2] * rhs
+        this->m_array[0] / rhs,
+        this->m_array[1] / rhs,
+        this->m_array[2] / rhs
     );
 
     return quotient;
