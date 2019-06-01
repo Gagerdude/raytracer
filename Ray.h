@@ -11,7 +11,7 @@ class Ray{
         vec3 origin() const;
         vec3 direction() const;
 
-        vec3 point_on_ray(float t);
+        vec3 point_on_ray(float t) const;
 
     private:
         vec3 m_origin, m_direction;
