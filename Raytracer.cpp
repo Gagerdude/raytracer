@@ -4,8 +4,7 @@
 #include "PNGWriter.h"
 
 #include <limits>
-
-#include <iostream>
+#include <random>
 
 Raytracer::Raytracer(){
     num_models = 0;
@@ -15,6 +14,10 @@ Raytracer::Raytracer(){
 void Raytracer::setResolution(int w, int h){
     width = w;
     height = h;
+}
+
+void Raytracer::setNumSamplesPerPixel(int samples){
+    num_samples = samples;
 }
 
 void Raytracer::setModels(model** model_array, int array_size){
@@ -29,18 +32,26 @@ void Raytracer::render(std::string filename) const{
     
     Camera cam(aspect_ratio);
 
+    std::default_random_engine generator;
+    std::uniform_real_distribution rand_dist;
+
     for(int j = arr.y() - 1; j >= 0; j--){
         for(int i = 0; i < arr.x(); i++){
-            float u = float(i) / float(arr.x());
-            float v = float(j) / float(arr.y());
+            vec3 this_color(0, 0, 0);
+            for(int s = 0; s < num_samples; s++){
+                float u = float(i + rand_dist(generator)) / float(arr.x());
+                float v = float(j + rand_dist(generator)) / float(arr.y());
+
+                Ray ray = cam.cast_ray(u, v);
+
+                this_color += color(ray);
+            }
+
+            this_color /= num_samples;
             
-            Ray ray = cam.cast_ray(u, v);
-
-            vec3 col = color(ray);
-
-            arr.set(col.r(), i, j, 0);
-            arr.set(col.g(), i, j, 1);
-            arr.set(col.b(), i, j, 2);
+            arr.set(this_color.r(), i, j, 0);
+            arr.set(this_color.g(), i, j, 1);
+            arr.set(this_color.b(), i, j, 2);
         }
     }
 

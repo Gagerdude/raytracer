@@ -12,12 +12,13 @@ class Raytracer{
         Raytracer();
 
         void setResolution(int w, int h);
+        void setNumSamplesPerPixel(int samples);
         void setModels(model** model_array, int array_size);
 
         void render(std::string filename) const;
 
     private:
-        int width, height;
+        int width, height, num_samples;
 
         model** models;
         int num_models;
