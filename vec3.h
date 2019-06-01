@@ -54,4 +54,7 @@ class vec3{
 
 vec3 operator*(float lhs, const vec3& rhs);
 
+float dot(const vec3& lhs, const vec3& rhs);
+vec3 cross(const vec3& lhs, const vec3& rhs);
+
 #endif
