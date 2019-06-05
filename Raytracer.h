@@ -11,21 +11,12 @@ class Raytracer{
     public:
         Raytracer();
 
-        void setResolution(int w, int h);
-        void setNumSamplesPerPixel(int samples);
-        void setModels(model** model_array, int array_size);
-
-        void render(std::string filename) const;
+        void render(std::string filename, model** model_array, int num_models, int resolution_x, int resolution_y, int num_samples, int max_reflections) const;
 
     private:
-        int width, height, num_samples;
+        vec3 color(const Ray& ray, model** model_array, int num_models, int ray_depth, int max_ray_depth) const;
 
-        model** models;
-        int num_models;
-
-        vec3 color(const Ray& ray, int ray_depth) const;
-
-        bool hit_list(const Ray& ray, float t_min, float t_max, hit_record& rec) const;
+        bool hit_list(const Ray& ray, float t_min, float t_max, model** model_array, int num_models, hit_record& rec) const;
 };
 
 #endif
