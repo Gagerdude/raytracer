@@ -11,6 +11,7 @@ struct hit_record {
 
 class model{
     public:
+        virtual ~model(){};
         virtual bool hit(const Ray& r, double t_min, double t_max, hit_record& rec) const = 0;
 };
 

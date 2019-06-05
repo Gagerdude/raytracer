@@ -11,6 +11,8 @@ Sphere::Sphere(vec3 c, double r){
     radius = r;
 }
 
+Sphere::~Sphere(){}
+
 bool Sphere::hit(const Ray& r, double t_min, double t_max, hit_record& rec) const{
     // get the ray to the center of the sphere
     vec3 origin_to_center = r.origin() - center;

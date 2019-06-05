@@ -8,6 +8,7 @@
 class Sphere: public model {
     public:
         Sphere();
+        ~Sphere();
         Sphere(vec3 c, double r);
         virtual bool hit(const Ray& r, double t_min, double t_max, hit_record& rec) const;
         
