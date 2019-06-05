@@ -51,7 +51,7 @@ vec3 Raytracer::color(const Ray& ray, model** model_array, int num_models, int r
     if(hit_list(ray, 0.001, std::numeric_limits<double>::max(), model_array, num_models, rec) && ray_depth < 10){
         // if there's a hit, color according to the hit
         vec3 rand_vec(rng(), rng(), rng());
-        rand_vec.normalize();
+        rand_vec = (2 * (rand_vec  - vec3(.5))).normalized();
 
         vec3 refl_vec = rec.p + rec.normal + rand_vec;
 
