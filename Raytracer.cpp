@@ -32,7 +32,8 @@ void Raytracer::render(std::string filename) const{
     
     Camera cam(aspect_ratio);
 
-    std::default_random_engine generator;
+    std::random_device rand_dev;
+    std::mt19937 generator(rand_dev());
     std::uniform_real_distribution rand_dist;
 
     for(int j = arr.y() - 1; j >= 0; j--){
@@ -44,7 +45,7 @@ void Raytracer::render(std::string filename) const{
 
                 Ray ray = cam.cast_ray(u, v);
 
-                this_color += color(ray);
+                this_color += color(ray, 0);
             }
 
             this_color /= num_samples;
@@ -54,24 +55,32 @@ void Raytracer::render(std::string filename) const{
             arr.set(this_color.b(), i, j, 2);
         }
     }
-
+    
     PNGWriter tst(filename);
     tst.write(arr);
 }
 
-vec3 Raytracer::color(const Ray& ray) const{
+vec3 Raytracer::color(const Ray& ray, int ray_depth) const{
     // test for a hit
     hit_record rec;
-    if(hit_list(ray, 0, std::numeric_limits<float>::max(), rec)){
+    if(hit_list(ray, 0, std::numeric_limits<float>::max(), rec) && ray_depth < 10){
         // if there's a hit, color according to the hit
-        return .5 * (rec.normal + vec3(1,1,1));
+        std::random_device rand_dev;
+        std::mt19937 gen(rand_dev());
+        std::uniform_real_distribution rand_dist;
+
+        vec3 rand_vec(rand_dist(gen), rand_dist(gen), rand_dist(gen));
+        rand_vec.normalize();
+
+        vec3 refl_vec = rec.p + rec.normal + rand_vec;
+
+        return .5 * color(Ray(rec.p, refl_vec - rec.p), ray_depth + 1);
     } else {
         // otherwise, color according to the background color
         vec3 ray_hat = ray.direction().normalized();
-        float u = .5 * (ray_hat.x() + 1.0);
-        float v = .5 * (ray_hat.y() + 1.0);
+        float t = .5 * (ray_hat.y() + 1);
 
-        return vec3(u * 1.0, v * 1.0, .2);
+        return (1.0 - t) * vec3(1,1,1) + t * vec3(.5,.7,1);
     }
 }
 
