@@ -9,6 +9,12 @@ vec3::vec3(){
 	this->m_array[2] = 0;
 }
 
+vec3::vec3(double v1){
+	this->m_array[0] = v1;
+	this->m_array[1] = v1;
+	this->m_array[2] = v1;
+}
+
 vec3::vec3(double v1, double v2, double v3){
 	this->m_array[0] = v1;
 	this->m_array[1] = v2;

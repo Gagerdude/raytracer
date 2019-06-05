@@ -5,6 +5,7 @@ class vec3{
     public:
         // constructors
         vec3();
+        vec3(double v1);
         vec3(double v1, double v2, double v3);
 
         // copy constructor / assignment
