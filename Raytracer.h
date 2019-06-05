@@ -23,7 +23,7 @@ class Raytracer{
         model** models;
         int num_models;
 
-        vec3 color(const Ray& ray) const;
+        vec3 color(const Ray& ray, int ray_depth) const;
 
         bool hit_list(const Ray& ray, float t_min, float t_max, hit_record& rec) const;
 };
