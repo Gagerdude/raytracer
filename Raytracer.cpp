@@ -48,7 +48,7 @@ void Raytracer::render(std::string filename, model** model_array, int num_models
 vec3 Raytracer::color(const Ray& ray, model** model_array, int num_models, int ray_depth, int max_ray_depth) const{
     // test for a hit
     hit_record rec;
-    if(hit_list(ray, 0, std::numeric_limits<double>::max(), model_array, num_models, rec) && ray_depth < 10){
+    if(hit_list(ray, 0.001, std::numeric_limits<double>::max(), model_array, num_models, rec) && ray_depth < 10){
         // if there's a hit, color according to the hit
         vec3 rand_vec(rng(), rng(), rng());
         rand_vec.normalize();
