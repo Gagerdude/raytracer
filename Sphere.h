@@ -8,11 +8,11 @@
 class Sphere: public model {
     public:
         Sphere();
-        Sphere(vec3 c, float r);
-        virtual bool hit(const Ray& r, float t_min, float t_max, hit_record& rec) const;
+        Sphere(vec3 c, double r);
+        virtual bool hit(const Ray& r, double t_min, double t_max, hit_record& rec) const;
         
         vec3 center;
-        float radius;
+        double radius;
 };
 
 #endif

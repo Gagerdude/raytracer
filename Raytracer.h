@@ -17,12 +17,12 @@ class Raytracer{
 
     private:
         std::mt19937 generator;
-        std::uniform_real_distribution<float> rand_dist;
-        std::function<float()> rng;
+        std::uniform_real_distribution<double> rand_dist;
+        std::function<double()> rng;
 
         vec3 color(const Ray& ray, model** model_array, int num_models, int ray_depth, int max_ray_depth) const;
 
-        bool hit_list(const Ray& ray, float t_min, float t_max, model** model_array, int num_models, hit_record& rec) const;
+        bool hit_list(const Ray& ray, double t_min, double t_max, model** model_array, int num_models, hit_record& rec) const;
 };
 
 #endif

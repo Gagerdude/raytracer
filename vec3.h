@@ -5,7 +5,7 @@ class vec3{
     public:
         // constructors
         vec3();
-        vec3(float v1, float v2, float v3);
+        vec3(double v1, double v2, double v3);
 
         // copy constructor / assignment
         vec3(const vec3& vec);
@@ -14,47 +14,47 @@ class vec3{
         // operator overloads
         vec3 operator-();
 
-        float operator[](int index) const;
-        float& operator[](int index);
+        double operator[](int index) const;
+        double& operator[](int index);
 
         vec3 operator+(const vec3& rhs) const;
         vec3 operator-(const vec3& rhs) const;
         vec3 operator*(const vec3& rhs) const;
         vec3 operator/(const vec3& rhs) const;
         
-        vec3 operator*(float rhs) const;
-        vec3 operator/(float rhs) const;
+        vec3 operator*(double rhs) const;
+        vec3 operator/(double rhs) const;
 
         vec3& operator+=(const vec3& rhs);
         vec3& operator-=(const vec3& rhs);
         vec3& operator*=(const vec3& rhs);
         vec3& operator/=(const vec3& rhs);
 
-        vec3& operator*=(float rhs);
-        vec3& operator/=(float rhs);
+        vec3& operator*=(double rhs);
+        vec3& operator/=(double rhs);
 
         // member accessors
-        float x() const;
-        float y() const;
-        float z() const;
-        float r() const;
-        float g() const;
-        float b() const;
+        double x() const;
+        double y() const;
+        double z() const;
+        double r() const;
+        double g() const;
+        double b() const;
 
         // utility methods
-        float length() const;
-        float length_squared() const;
+        double length() const;
+        double length_squared() const;
 
         vec3& normalize();
         vec3 normalized() const;
 
     private:
-        float m_array[3];
+        double m_array[3];
 };
 
-vec3 operator*(float lhs, const vec3& rhs);
+vec3 operator*(double lhs, const vec3& rhs);
 
-float dot(const vec3& lhs, const vec3& rhs);
+double dot(const vec3& lhs, const vec3& rhs);
 vec3 cross(const vec3& lhs, const vec3& rhs);
 
 #endif

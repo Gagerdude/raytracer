@@ -15,9 +15,9 @@ Raytracer::Raytracer(){
 }
 
 void Raytracer::render(std::string filename, model** model_array, int num_models, int resolution_x, int resolution_y, int num_samples, int max_reflections) const{
-    float aspect_ratio = float(resolution_x) / float(resolution_y); 
+    double aspect_ratio = double(resolution_x) / double(resolution_y); 
     
-    ImageWrapper<float> arr(resolution_x, resolution_y, 3);
+    ImageWrapper<double> arr(resolution_x, resolution_y, 3);
     
     Camera cam(aspect_ratio);
 
@@ -25,8 +25,8 @@ void Raytracer::render(std::string filename, model** model_array, int num_models
         for(int i = 0; i < arr.x(); i++){
             vec3 this_color(0, 0, 0);
             for(int s = 0; s < num_samples; s++){
-                float u = float(i + rng()) / float(arr.x());
-                float v = float(j + rng()) / float(arr.y());
+                double u = double(i + rng()) / double(arr.x());
+                double v = double(j + rng()) / double(arr.y());
 
                 Ray ray = cam.cast_ray(u, v);
 
@@ -48,7 +48,7 @@ void Raytracer::render(std::string filename, model** model_array, int num_models
 vec3 Raytracer::color(const Ray& ray, model** model_array, int num_models, int ray_depth, int max_ray_depth) const{
     // test for a hit
     hit_record rec;
-    if(hit_list(ray, 0, std::numeric_limits<float>::max(), model_array, num_models, rec) && ray_depth < 10){
+    if(hit_list(ray, 0, std::numeric_limits<double>::max(), model_array, num_models, rec) && ray_depth < 10){
         // if there's a hit, color according to the hit
         vec3 rand_vec(rng(), rng(), rng());
         rand_vec.normalize();
@@ -59,18 +59,18 @@ vec3 Raytracer::color(const Ray& ray, model** model_array, int num_models, int r
     } else {
         // otherwise, color according to the background color
         vec3 ray_hat = ray.direction().normalized();
-        float t = .5 * (ray_hat.y() + 1);
+        double t = .5 * (ray_hat.y() + 1);
 
         return (1.0 - t) * vec3(1,1,1) + t * vec3(.5,.7,1);
     }
 }
 
-bool Raytracer::hit_list(const Ray& ray, float t_min, float t_max, model** model_array, int num_models, hit_record& rec) const{
+bool Raytracer::hit_list(const Ray& ray, double t_min, double t_max, model** model_array, int num_models, hit_record& rec) const{
     hit_record hit;
 
     bool hit_recorded = false;
 
-    float closest_hit = t_max;
+    double closest_hit = t_max;
     for(int i = 0; i < num_models; i++){
         if(model_array[i]->hit(ray, t_min, closest_hit, hit)){
             hit_recorded = true;

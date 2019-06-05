@@ -9,7 +9,7 @@ vec3::vec3(){
 	this->m_array[2] = 0;
 }
 
-vec3::vec3(float v1, float v2, float v3){
+vec3::vec3(double v1, double v2, double v3){
 	this->m_array[0] = v1;
 	this->m_array[1] = v2;
 	this->m_array[2] = v3;
@@ -39,7 +39,7 @@ vec3 vec3::operator-(){
     return negatedVector;
 }
 
-float vec3::operator[](int index) const{
+double vec3::operator[](int index) const{
 	if(index < 0 || 3 <= index){
         throw std::out_of_range("Index");
     }
@@ -47,7 +47,7 @@ float vec3::operator[](int index) const{
     return this->m_array[index];
 }
 
-float& vec3::operator[](int index){
+double& vec3::operator[](int index){
 	if(index < 0 || 3 <= index){
         throw std::out_of_range("Index");
     }
@@ -95,7 +95,7 @@ vec3 vec3::operator/(const vec3& rhs) const{
     return quotient;
 }
 
-vec3 vec3::operator*(float rhs) const{
+vec3 vec3::operator*(double rhs) const{
     vec3 product(
         this->m_array[0] * rhs,
         this->m_array[1] * rhs,
@@ -105,13 +105,13 @@ vec3 vec3::operator*(float rhs) const{
     return product;
 }
 
-vec3 operator*(float lhs, const vec3& rhs){
+vec3 operator*(double lhs, const vec3& rhs){
     vec3 product = rhs * lhs;
 
     return product;
 }
 
-vec3 vec3::operator/(float rhs) const{
+vec3 vec3::operator/(double rhs) const{
     vec3 quotient(
         this->m_array[0] / rhs,
         this->m_array[1] / rhs,
@@ -153,7 +153,7 @@ vec3& vec3::operator/=(const vec3& rhs){
     return *this;
 }
 
-vec3& vec3::operator*=(float rhs){
+vec3& vec3::operator*=(double rhs){
 	this->m_array[0] *= rhs;
 	this->m_array[1] *= rhs;
 	this->m_array[2] *= rhs;
@@ -161,7 +161,7 @@ vec3& vec3::operator*=(float rhs){
     return *this;
 }
 
-vec3& vec3::operator/=(float rhs){
+vec3& vec3::operator/=(double rhs){
 	this->m_array[0] /= rhs;
 	this->m_array[1] /= rhs;
 	this->m_array[2] /= rhs;
@@ -169,31 +169,31 @@ vec3& vec3::operator/=(float rhs){
     return *this;
 }
 
-float vec3::x() const{
+double vec3::x() const{
 	return this->m_array[0];
 }
 
-float vec3::y() const{
+double vec3::y() const{
 	return this->m_array[1];
 }
 
-float vec3::z() const{
+double vec3::z() const{
 	return this->m_array[2];
 }
 
-float vec3::r() const{
+double vec3::r() const{
 	return this->m_array[0];
 }
 
-float vec3::g() const{
+double vec3::g() const{
 	return this->m_array[1];
 }
 
-float vec3::b() const{
+double vec3::b() const{
 	return this->m_array[2];
 }
 
-float vec3::length() const{
+double vec3::length() const{
 	return sqrt(
         this->m_array[0] * this->m_array[0] + 
         this->m_array[1] * this->m_array[1] + 
@@ -201,7 +201,7 @@ float vec3::length() const{
     );
 }
 
-float vec3::length_squared() const{
+double vec3::length_squared() const{
 	return (
         this->m_array[0] * this->m_array[0] + 
         this->m_array[1] * this->m_array[1] + 
@@ -219,7 +219,7 @@ vec3 vec3::normalized() const{
     return *this / this->length();
 }
 
-float dot(const vec3& lhs, const vec3& rhs){
+double dot(const vec3& lhs, const vec3& rhs){
     return (
         lhs.x() * rhs.x() +
         lhs.y() * rhs.y() +

@@ -6,9 +6,9 @@
 
 class Camera{
     public:
-        Camera(float aspect_ratio);
+        Camera(double aspect_ratio);
 
-        Ray cast_ray(float u, float v) const;
+        Ray cast_ray(double u, double v) const;
 
         vec3 lower_left_corner;
         vec3 horizontal;

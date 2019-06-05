@@ -33,7 +33,7 @@ void PNGWriter::write(ImageWrapper<unsigned char> image){
     );
 }
 
-void PNGWriter::write(ImageWrapper<float> image){
+void PNGWriter::write(ImageWrapper<double> image){
     // setup image dimensions
     this->m_image.width = image.x();
     this->m_image.height = image.y();
@@ -44,7 +44,7 @@ void PNGWriter::write(ImageWrapper<float> image){
         this->m_image.format = PNG_FORMAT_RGBA;
     }
 
-    // take the floats, and scale them to 8 bit values
+    // take the doubles, and scale them to 8 bit values
     ImageWrapper<unsigned char> scaled_image(image.x(), image.y(), image.z());
 
     for(int i = 0; i < image.x(); i++){
