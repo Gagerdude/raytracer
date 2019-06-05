@@ -6,7 +6,13 @@
 #include <limits>
 #include <random>
 
-Raytracer::Raytracer(){}
+#include <iostream>
+
+Raytracer::Raytracer(){
+    std::random_device rand_dev;
+    this->generator.seed(rand_dev());
+    this->rng = std::bind(rand_dist, std::ref(generator));
+}
 
 void Raytracer::render(std::string filename, model** model_array, int num_models, int resolution_x, int resolution_y, int num_samples, int max_reflections) const{
     float aspect_ratio = float(resolution_x) / float(resolution_y); 
@@ -15,16 +21,12 @@ void Raytracer::render(std::string filename, model** model_array, int num_models
     
     Camera cam(aspect_ratio);
 
-    std::random_device rand_dev;
-    std::mt19937 generator(rand_dev());
-    std::uniform_real_distribution rand_dist;
-
     for(int j = arr.y() - 1; j >= 0; j--){
         for(int i = 0; i < arr.x(); i++){
             vec3 this_color(0, 0, 0);
             for(int s = 0; s < num_samples; s++){
-                float u = float(i + rand_dist(generator)) / float(arr.x());
-                float v = float(j + rand_dist(generator)) / float(arr.y());
+                float u = float(i + rng()) / float(arr.x());
+                float v = float(j + rng()) / float(arr.y());
 
                 Ray ray = cam.cast_ray(u, v);
 
@@ -48,11 +50,7 @@ vec3 Raytracer::color(const Ray& ray, model** model_array, int num_models, int r
     hit_record rec;
     if(hit_list(ray, 0, std::numeric_limits<float>::max(), model_array, num_models, rec) && ray_depth < 10){
         // if there's a hit, color according to the hit
-        std::random_device rand_dev;
-        std::mt19937 gen(rand_dev());
-        std::uniform_real_distribution rand_dist;
-
-        vec3 rand_vec(rand_dist(gen), rand_dist(gen), rand_dist(gen));
+        vec3 rand_vec(rng(), rng(), rng());
         rand_vec.normalize();
 
         vec3 refl_vec = rec.p + rec.normal + rand_vec;
