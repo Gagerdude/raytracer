@@ -3,6 +3,8 @@
 #include <stdexcept>
 #include <math.h>
 
+std::mt19937 vec3::rng = std::mt19937();
+
 vec3::vec3(){
 	this->m_array[0] = 0;
 	this->m_array[1] = 0;
@@ -225,6 +227,12 @@ vec3 vec3::normalized() const{
     return *this / this->length();
 }
 
+vec3 vec3::random(){
+    std::uniform_real_distribution<double> rand_dist(-1, 1);
+    vec3 return_vec(rand_dist(vec3::rng), rand_dist(vec3::rng), rand_dist(vec3::rng));
+    return return_vec.normalized();
+}
+
 double dot(const vec3& lhs, const vec3& rhs){
     return (
         lhs.x() * rhs.x() +
@@ -239,4 +247,8 @@ vec3 cross(const vec3& lhs, const vec3& rhs){
         -1 * (lhs.x() * rhs.z() - lhs.z() * rhs.x()),
         lhs.x() * rhs.y() - lhs.y() * rhs.x() 
     );
+}
+
+vec3 reflect(const vec3& vec, const vec3& normal){
+    return vec - (2 * dot(vec, normal) * normal);
 }

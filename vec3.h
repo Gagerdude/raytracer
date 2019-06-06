@@ -1,6 +1,8 @@
 #ifndef VEC3_H
 #define VEC3_H
 
+#include <random>
+
 class vec3{
     public:
         // constructors
@@ -49,13 +51,18 @@ class vec3{
         vec3& normalize();
         vec3 normalized() const;
 
+        static vec3 random();
+
     private:
         double m_array[3];
+
+        static std::mt19937 rng;
 };
 
 vec3 operator*(double lhs, const vec3& rhs);
 
 double dot(const vec3& lhs, const vec3& rhs);
 vec3 cross(const vec3& lhs, const vec3& rhs);
+vec3 reflect(const vec3& vec, const vec3& normal);
 
 #endif
