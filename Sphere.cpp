@@ -3,12 +3,15 @@
 #include <math.h>
 
 Sphere::Sphere(){
-
+    center = vec3();
+    radius = 0;
+    material = nullptr;
 }
 
-Sphere::Sphere(vec3 c, double r){
+Sphere::Sphere(vec3 c, double r, Material* mat){
     center = c;
     radius = r;
+    material = mat;
 }
 
 Sphere::~Sphere(){}
@@ -35,6 +38,7 @@ bool Sphere::hit(const Ray& r, double t_min, double t_max, hit_record& rec) cons
             rec.t = t;
             rec.p = r.point_on_ray(t);
             rec.normal = (rec.p - center) / radius;
+            rec.material = material;
 
             return true;
         }
@@ -48,6 +52,7 @@ bool Sphere::hit(const Ray& r, double t_min, double t_max, hit_record& rec) cons
             rec.t = t;
             rec.p = r.point_on_ray(t);
             rec.normal = (rec.p - center) / radius;
+            rec.material = material;
 
             return true;
         }
