@@ -1,7 +1,7 @@
 #include "PNGWriter.h"
-#include <cstring>
 
-#include <iostream>
+#include <cstring>
+#include <cmath>
 
 PNGWriter::PNGWriter(std::string fileName){
     this->m_file = fileName;
@@ -56,7 +56,7 @@ void PNGWriter::write(ImageWrapper<double> image){
                 } else if(image.get(i, j, k) <= 0){
                     scaled_image.set(0, i, j, k);
                 } else {
-                    scaled_image.set(image.get(i, j, k) * 255, i, j, k);
+                    scaled_image.set(std::sqrt(image.get(i, j, k)) * 255, i, j, k);
                 }
             }
         }
