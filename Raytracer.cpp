@@ -48,14 +48,19 @@ void Raytracer::render(std::string filename, model** model_array, int num_models
 vec3 Raytracer::color(const Ray& ray, model** model_array, int num_models, int ray_depth, int max_ray_depth) const{
     // test for a hit
     hit_record rec;
-    if(hit_list(ray, 0.001, std::numeric_limits<double>::max(), model_array, num_models, rec) && ray_depth < 10){
+    if(hit_list(ray, 0.001, std::numeric_limits<double>::max(), model_array, num_models, rec)){
         // if there's a hit, color according to the hit
-        vec3 rand_vec(rng(), rng(), rng());
-        rand_vec = (2 * (rand_vec  - vec3(.5))).normalized();
+        Ray scattered;
+        vec3 attenuation;
 
-        vec3 refl_vec = rec.p + rec.normal + rand_vec;
-
-        return .5 * color(Ray(rec.p, refl_vec - rec.p), model_array, num_models, ray_depth + 1, max_ray_depth);
+        // check if the material will scatter the ray
+        if(ray_depth < max_ray_depth && rec.material->scatter(ray, rec, attenuation, scattered)){
+            // if it does, then apply the color change from that reflection and continue on
+            return attenuation * color(scattered, model_array, num_models, ray_depth + 1, max_ray_depth);
+        } else {
+            // otherwise we can assume the ray was "absorbed", just return black.
+            return vec3(0);
+        }
     } else {
         // otherwise, color according to the background color
         vec3 ray_hat = ray.direction().normalized();

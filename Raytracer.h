@@ -2,6 +2,7 @@
 #define RAYTRACER_H
 
 #include "model.h"
+#include "Material.h"
 #include "Ray.h"
 
 #include <vector>
