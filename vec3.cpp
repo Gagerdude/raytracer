@@ -37,7 +37,7 @@ vec3& vec3::operator=(const vec3& vec){
     return *this;
 }
 
-vec3 vec3::operator-(){
+vec3 vec3::operator-() const{
 	vec3 negatedVector(
         -1 * this->m_array[0],
         -1 * this->m_array[1],
@@ -251,4 +251,17 @@ vec3 cross(const vec3& lhs, const vec3& rhs){
 
 vec3 reflect(const vec3& vec, const vec3& normal){
     return vec - (2 * dot(vec, normal) * normal);
+}
+
+bool refract(const vec3& vec, const vec3& normal, double refractive_index, vec3& refracted){
+    vec3 uv = vec.normalized();
+    float dt = dot(uv, normal);
+    float discriminant = 1.0 - refractive_index * refractive_index * (1-dt*dt);
+
+    if(discriminant > 0){
+        refracted = refractive_index * (uv - normal * dt) - normal * sqrt(discriminant);
+        return true;
+    } else {
+        return false;
+    }
 }

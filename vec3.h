@@ -15,7 +15,7 @@ class vec3{
         vec3& operator=(const vec3& vec);
 
         // operator overloads
-        vec3 operator-();
+        vec3 operator-() const;
 
         double operator[](int index) const;
         double& operator[](int index);
@@ -64,5 +64,6 @@ vec3 operator*(double lhs, const vec3& rhs);
 double dot(const vec3& lhs, const vec3& rhs);
 vec3 cross(const vec3& lhs, const vec3& rhs);
 vec3 reflect(const vec3& vec, const vec3& normal);
+bool refract(const vec3& vec, const vec3& normal, double refractive_index, vec3& refracted);
 
 #endif
