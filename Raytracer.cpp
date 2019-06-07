@@ -8,11 +8,10 @@
 
 #include <iostream>
 
-Raytracer::Raytracer(){
-    std::random_device rand_dev;
-    this->generator.seed(rand_dev());
-    this->rng = std::bind(rand_dist, std::ref(generator));
-}
+std::random_device Raytracer::rd = std::random_device();
+std::mt19937 Raytracer::rng = std::mt19937(Raytracer::rd());
+
+Raytracer::Raytracer(){}
 
 void Raytracer::render(std::string filename, model** model_array, int num_models, int resolution_x, int resolution_y, int num_samples, int max_reflections) const{
     double aspect_ratio = double(resolution_x) / double(resolution_y); 
@@ -21,12 +20,14 @@ void Raytracer::render(std::string filename, model** model_array, int num_models
     
     Camera cam(aspect_ratio);
 
+    std::uniform_real_distribution<double> dist;
+
     for(int j = arr.y() - 1; j >= 0; j--){
         for(int i = 0; i < arr.x(); i++){
             vec3 this_color(0, 0, 0);
             for(int s = 0; s < num_samples; s++){
-                double u = double(i + rng()) / double(arr.x());
-                double v = double(j + rng()) / double(arr.y());
+                double u = double(i + dist(Raytracer::rng)) / double(arr.x());
+                double v = double(j + dist(Raytracer::rng)) / double(arr.y());
 
                 Ray ray = cam.cast_ray(u, v);
 
