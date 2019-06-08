@@ -233,6 +233,11 @@ vec3 vec3::random(){
     return return_vec.normalized();
 }
 
+std::ostream& operator<<(std::ostream& strm, const vec3& rhs){
+    strm << rhs.x() << ' ' << rhs.y() << ' ' << rhs.z();
+    return strm;
+}
+
 double dot(const vec3& lhs, const vec3& rhs){
     return (
         lhs.x() * rhs.x() +

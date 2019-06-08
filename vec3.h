@@ -1,6 +1,7 @@
 #ifndef VEC3_H
 #define VEC3_H
 
+#include <iostream>
 #include <random>
 
 class vec3{
@@ -60,6 +61,8 @@ class vec3{
 };
 
 vec3 operator*(double lhs, const vec3& rhs);
+
+std::ostream& operator<<(std::ostream& strm, const vec3& rhs);
 
 double dot(const vec3& lhs, const vec3& rhs);
 vec3 cross(const vec3& lhs, const vec3& rhs);
