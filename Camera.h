@@ -6,7 +6,7 @@
 
 class Camera{
     public:
-        Camera(double aspect_ratio);
+        Camera(double horizontal_fov, double aspect_ratio);
 
         Ray cast_ray(double u, double v) const;
 
