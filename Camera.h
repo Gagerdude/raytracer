@@ -6,7 +6,7 @@
 
 class Camera{
     public:
-        Camera(vec3 origin_in, vec3 target, vec3 up, double horizontal_fov, double aspect_ratio);
+        Camera(vec3 origin_in, vec3 target, vec3 up, double horizontal_fov, double aspect_ratio, double aperture, double focus_dist);
 
         Ray cast_ray(double u, double v) const;
 
@@ -14,6 +14,10 @@ class Camera{
         vec3 horizontal;
         vec3 vertical;
         vec3 origin;
+
+        vec3 u, v, w;
+
+        double lens_radius;
 };
 
 #endif
