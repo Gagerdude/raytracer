@@ -14,7 +14,9 @@ Sphere::Sphere(vec3 c, double r, Material* mat){
     material = mat;
 }
 
-Sphere::~Sphere(){}
+Sphere::~Sphere(){
+    delete material;
+}
 
 bool Sphere::hit(const Ray& r, double t_min, double t_max, hit_record& rec) const{
     // get the ray to the center of the sphere
