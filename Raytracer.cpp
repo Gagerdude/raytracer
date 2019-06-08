@@ -1,7 +1,4 @@
 #include "Raytracer.h"
-#include "ImageWrapper.h"
-#include "Camera.h"
-#include "PNGWriter.h"
 
 #include <limits>
 #include <random>
@@ -13,12 +10,8 @@ std::mt19937 Raytracer::rng = std::mt19937(Raytracer::rd());
 
 Raytracer::Raytracer(){}
 
-void Raytracer::render(std::string filename, model** model_array, int num_models, int resolution_x, int resolution_y, int num_samples, int max_reflections) const{
-    double aspect_ratio = double(resolution_x) / double(resolution_y); 
-    
+ImageWrapper<double> Raytracer::render(const Camera& camera, model** model_array, int num_models, int resolution_x, int resolution_y, int num_samples, int max_reflections) const{
     ImageWrapper<double> arr(resolution_x, resolution_y, 3);
-    
-    Camera cam(aspect_ratio);
 
     std::uniform_real_distribution<double> dist;
 
@@ -29,7 +22,7 @@ void Raytracer::render(std::string filename, model** model_array, int num_models
                 double u = double(i + dist(Raytracer::rng)) / double(arr.x());
                 double v = double(j + dist(Raytracer::rng)) / double(arr.y());
 
-                Ray ray = cam.cast_ray(u, v);
+                Ray ray = camera.cast_ray(u, v);
 
                 this_color += color(ray, model_array, num_models, 0, max_reflections);
             }
@@ -42,8 +35,7 @@ void Raytracer::render(std::string filename, model** model_array, int num_models
         }
     }
     
-    PNGWriter tst(filename);
-    tst.write(arr);
+    return arr;
 }
 
 vec3 Raytracer::color(const Ray& ray, model** model_array, int num_models, int ray_depth, int max_ray_depth) const{

@@ -4,6 +4,8 @@
 #include "model.h"
 #include "Material.h"
 #include "Ray.h"
+#include "Camera.h"
+#include "ImageWrapper.h"
 
 #include <vector>
 #include <string>
@@ -14,7 +16,7 @@ class Raytracer{
     public:
         Raytracer();
 
-        void render(std::string filename, model** model_array, int num_models, int resolution_x, int resolution_y, int num_samples, int max_reflections) const;
+        ImageWrapper<double> render(const Camera& camera, model** model_array, int num_models, int resolution_x, int resolution_y, int num_samples, int max_reflections) const;
 
         static std::mt19937 rng;
 
