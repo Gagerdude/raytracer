@@ -5,7 +5,7 @@ template <typename T>
 class ImageWrapper{
     public:
         // constructor/destructor, need at least one dimension of size
-        ImageWrapper(int x_size, int y_size=0, int z_size=0);
+        ImageWrapper(int x_size=0, int y_size=0, int z_size=0);
         ~ImageWrapper();
 
         // copy constructor and assignment overload
@@ -32,7 +32,7 @@ class ImageWrapper{
         // internal sizes of the logical 3D array
         int m_x, m_y, m_z;
 
-        long index(int x, int y, int z);
+        long index(int x, int y, int z) const;
 };
 
 #include "ImageWrapper.hpp"
