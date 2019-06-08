@@ -5,8 +5,8 @@
 
 #include <iostream>
 
-std::random_device Raytracer::rd = std::random_device();
-std::mt19937 Raytracer::rng = std::mt19937(Raytracer::rd());
+thread_local std::random_device Raytracer::rd = std::random_device();
+thread_local std::mt19937 Raytracer::rng = std::mt19937(Raytracer::rd());
 
 Raytracer::Raytracer(){}
 
