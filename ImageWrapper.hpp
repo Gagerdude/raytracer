@@ -96,6 +96,6 @@ void ImageWrapper<T>::set(const T& value, int x, int y, int z){
 }
 
 template <typename T>
-long ImageWrapper<T>::index(int x, int y, int z){
+long ImageWrapper<T>::index(int x, int y, int z) const{
     return(y * this->m_x * this->m_z + x * this->m_z + z);
 }
