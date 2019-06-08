@@ -2,7 +2,7 @@
 #define MATERIAL_H
 
 #include "Ray.h"
-#include "model.h"
+#include "Model.h"
 
 class Material {
     public:

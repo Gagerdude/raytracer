@@ -1,12 +1,12 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "model.h"
+#include "Model.h"
 #include "Material.h"
 #include "vec3.h"
 #include "Ray.h"
 
-class Sphere: public model {
+class Sphere: public Model {
     public:
         Sphere();
         ~Sphere();
