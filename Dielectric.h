@@ -1,7 +1,7 @@
 #ifndef DIELECTRIC_H
 #define DIELECTRIC_H
 
-#include "material.h"
+#include "Material.h"
 #include "Ray.h"
 
 class Dielectric: public Material {
