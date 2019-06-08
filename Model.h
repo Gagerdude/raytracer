@@ -12,9 +12,9 @@ struct hit_record {
     Material* material;
 };
 
-class model{
+class Model{
     public:
-        virtual ~model(){};
+        virtual ~Model(){};
         virtual bool hit(const Ray& r, double t_min, double t_max, hit_record& rec) const = 0;
 };
 
