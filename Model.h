@@ -2,6 +2,7 @@
 #define MODEL_H
 
 #include "Ray.h"
+#include "AxisAlignedBoundingBox.h"
 
 class Material;
 
@@ -16,6 +17,7 @@ class Model{
     public:
         virtual ~Model(){};
         virtual bool hit(const Ray& r, double t_min, double t_max, hit_record& rec) const = 0;
+        virtual bool bounding_box(double time_start, double time_end, double t_1, AxisAlignedBoundingBox& box) const = 0;
 };
 
 #endif

@@ -72,6 +72,14 @@ bool moving_sphere::hit(const Ray& r, double t_min, double t_max, hit_record& re
     return false;
 }
 
+bool moving_sphere::bounding_box(double time_start, double time_end, double t_1, AxisAlignedBoundingBox& box) const{
+    AxisAlignedBoundingBox box_start(center_start - vec3(radius), center_start + vec3(radius));
+    AxisAlignedBoundingBox box_end(center_end - vec3(radius), center_end + vec3(radius));
+
+    box = box_start + box_end;
+    return true;
+}
+
 vec3 moving_sphere::center(double time) const{
     return center_start + ((time - time_start) / (time_end - time_start)) * (center_end - center_start);
 }

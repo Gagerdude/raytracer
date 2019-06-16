@@ -62,3 +62,8 @@ bool Sphere::hit(const Ray& r, double t_min, double t_max, hit_record& rec) cons
 
     return false;
 }
+
+bool Sphere::bounding_box(double time_start, double time_end, double t_1, AxisAlignedBoundingBox& box) const{
+    box = AxisAlignedBoundingBox(center - vec3(radius), center + vec3(radius));
+    return true;
+}

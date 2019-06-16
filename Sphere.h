@@ -12,7 +12,8 @@ class Sphere: public Model {
         ~Sphere();
         Sphere(vec3 c, double r, Material* mat);
         virtual bool hit(const Ray& r, double t_min, double t_max, hit_record& rec) const;
-        
+        virtual bool bounding_box(double time_start, double time_end, double t_1, AxisAlignedBoundingBox& box) const;
+
         vec3 center;
         double radius;
 
