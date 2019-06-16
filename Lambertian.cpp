@@ -6,7 +6,7 @@ Lambertian::Lambertian(const vec3& a){
 
 bool Lambertian::scatter(const Ray& ray_in, const hit_record& rec, vec3& attenuation, Ray& ray_scattered) const{
     vec3 target = rec.p + rec.normal + vec3::random();
-    ray_scattered = Ray(rec.p, target - rec.p);
+    ray_scattered = Ray(rec.p, target - rec.p, ray_in.time());
     attenuation = albedo;
     return true;
 }

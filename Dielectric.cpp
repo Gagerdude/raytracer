@@ -42,9 +42,9 @@ bool Dielectric::scatter(const Ray& ray_in, const hit_record& rec, vec3& attenua
 
     std::uniform_real_distribution<double> dist;
     if(dist(Raytracer::rng) < reflect_prob){
-        ray_scattered = Ray(rec.p, reflected);
+        ray_scattered = Ray(rec.p, reflected, ray_in.time());
     } else {
-        ray_scattered = Ray(rec.p, refracted);
+        ray_scattered = Ray(rec.p, refracted, ray_in.time());
     }
     return true;
 }
