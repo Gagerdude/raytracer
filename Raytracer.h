@@ -6,6 +6,7 @@
 #include "Ray.h"
 #include "Camera.h"
 #include "ImageWrapper.h"
+#include "BVHNode.h"
 
 #include <vector>
 #include <string>
@@ -23,7 +24,7 @@ class Raytracer{
     private:
         static thread_local std::random_device rd;
         
-        vec3 color(const Ray& ray, Model** Model_array, int num_Models, int ray_depth, int max_ray_depth) const;
+        vec3 color(const Ray& ray, BVHNode* bvh, int ray_depth, int max_ray_depth) const;
 
         bool hit_list(const Ray& ray, double t_min, double t_max, Model** Model_array, int num_Models, hit_record& rec) const;
 };

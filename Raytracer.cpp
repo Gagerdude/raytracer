@@ -13,6 +13,8 @@ Raytracer::Raytracer(){}
 ImageWrapper<double> Raytracer::render(const Camera& camera, Model** Model_array, int num_Models, int resolution_x, int resolution_y, int num_samples, int max_reflections) const{
     ImageWrapper<double> arr(resolution_x, resolution_y, 3);
 
+    BVHNode* scene_bvh = new BVHNode(Model_array, num_Models, camera.time_start, camera.time_end);
+
     std::uniform_real_distribution<double> dist;
 
     for(int j = arr.y() - 1; j >= 0; j--){
@@ -24,7 +26,7 @@ ImageWrapper<double> Raytracer::render(const Camera& camera, Model** Model_array
 
                 Ray ray = camera.cast_ray(u, v);
 
-                this_color += color(ray, Model_array, num_Models, 0, max_reflections);
+                this_color += color(ray, scene_bvh, 0, max_reflections);
             }
 
             this_color /= num_samples;
@@ -35,13 +37,15 @@ ImageWrapper<double> Raytracer::render(const Camera& camera, Model** Model_array
         }
     }
     
+    delete scene_bvh;
+
     return arr;
 }
 
-vec3 Raytracer::color(const Ray& ray, Model** Model_array, int num_Models, int ray_depth, int max_ray_depth) const{
+vec3 Raytracer::color(const Ray& ray, BVHNode* bvh, int ray_depth, int max_ray_depth) const{
     // test for a hit
     hit_record rec;
-    if(hit_list(ray, 0.001, std::numeric_limits<double>::max(), Model_array, num_Models, rec)){
+    if(bvh->hit(ray, 0.001, std::numeric_limits<double>::max(), rec)){
         // if there's a hit, color according to the hit
         Ray scattered;
         vec3 attenuation;
@@ -49,7 +53,7 @@ vec3 Raytracer::color(const Ray& ray, Model** Model_array, int num_Models, int r
         // check if the material will scatter the ray
         if(ray_depth < max_ray_depth && rec.material->scatter(ray, rec, attenuation, scattered)){
             // if it does, then apply the color change from that reflection and continue on
-            return attenuation * color(scattered, Model_array, num_Models, ray_depth + 1, max_ray_depth);
+            return attenuation * color(scattered, bvh, ray_depth + 1, max_ray_depth);
         } else {
             // otherwise we can assume the ray was "absorbed", just return black.
             return vec3(0);
