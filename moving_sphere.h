@@ -12,7 +12,7 @@ class moving_sphere: public Model {
         ~moving_sphere();
         moving_sphere(vec3 c_start, vec3 c_end, double t_start, double t_end, double r, Material* mat);
         virtual bool hit(const Ray& r, double t_min, double t_max, hit_record& rec) const;
-        virtual bool bounding_box(double time_start, double time_end, double t_1, AxisAlignedBoundingBox& box) const;
+        virtual bool bounding_box(double time_start, double time_end, AxisAlignedBoundingBox& box) const;
 
         vec3 center(double time) const;
         vec3 center_start, center_end;
