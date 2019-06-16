@@ -56,8 +56,6 @@ class vec3{
 
     private:
         double m_array[3];
-
-        static std::mt19937 rng;
 };
 
 vec3 operator*(double lhs, const vec3& rhs);

@@ -1,9 +1,9 @@
 #include "vec3.h"
 
+#include "Raytracer.h"
+
 #include <stdexcept>
 #include <math.h>
-
-std::mt19937 vec3::rng = std::mt19937();
 
 vec3::vec3(){
 	this->m_array[0] = 0;
@@ -229,7 +229,7 @@ vec3 vec3::normalized() const{
 
 vec3 vec3::random(){
     std::uniform_real_distribution<double> rand_dist(-1, 1);
-    vec3 return_vec(rand_dist(vec3::rng), rand_dist(vec3::rng), rand_dist(vec3::rng));
+    vec3 return_vec(rand_dist(Raytracer::rng), rand_dist(Raytracer::rng), rand_dist(Raytracer::rng));
     return return_vec.normalized();
 }
 
