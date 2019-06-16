@@ -5,7 +5,10 @@
 #include <cmath>
 #include <random>
 
-Camera::Camera(vec3 origin_in, vec3 target, vec3 up, double horizontal_fov, double aspect_ratio, double aperture, double focus_dist){
+Camera::Camera(vec3 origin_in, vec3 target, vec3 up, double horizontal_fov, double aspect_ratio, double aperture, double focus_dist, double _time_start, double _time_end){
+    time_start = _time_start;
+    time_end = _time_end;
+    
     lens_radius = aperture / 2;
     
     double theta = horizontal_fov * M_PI / 180;
@@ -23,8 +26,10 @@ Camera::Camera(vec3 origin_in, vec3 target, vec3 up, double horizontal_fov, doub
 }
 
 Ray Camera::cast_ray(double s, double t) const{
-    std::uniform_real_distribution<double> dist(-1, 1);
-    vec3 random_disk = lens_radius * vec3(dist(Raytracer::rng), dist(Raytracer::rng), 0).normalized();
+    std::uniform_real_distribution<double> unit_rng(-1, 1);
+    std::uniform_real_distribution<double> time_rng(time_start, time_end);
+
+    vec3 random_disk = lens_radius * vec3(unit_rng(Raytracer::rng), unit_rng(Raytracer::rng), 0).normalized();
     vec3 offset = u * random_disk.x() + v * random_disk.y();
-    return Ray(origin + offset, lower_left_corner + (s * horizontal) + (t * vertical) - origin - offset);
+    return Ray(origin + offset, lower_left_corner + (s * horizontal) + (t * vertical) - origin - offset, time_rng(Raytracer::rng));
 }
