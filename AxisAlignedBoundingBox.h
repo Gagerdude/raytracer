@@ -9,6 +9,8 @@ class AxisAlignedBoundingBox{
         AxisAlignedBoundingBox();
         AxisAlignedBoundingBox(const vec3& min, const vec3& max);
 
+        AxisAlignedBoundingBox operator+(const AxisAlignedBoundingBox& rhs) const;
+
         vec3 min() const;
         vec3 max() const;
 

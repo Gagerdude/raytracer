@@ -1,6 +1,7 @@
 #include "AxisAlignedBoundingBox.h"
 
 #include <utility>
+#include <cmath>
 
 AxisAlignedBoundingBox::AxisAlignedBoundingBox(){
     
@@ -9,6 +10,22 @@ AxisAlignedBoundingBox::AxisAlignedBoundingBox(){
 AxisAlignedBoundingBox::AxisAlignedBoundingBox(const vec3& min, const vec3& max){
     this->m_min = min;
     this->m_max = max;
+}
+
+AxisAlignedBoundingBox AxisAlignedBoundingBox::operator+(const AxisAlignedBoundingBox& rhs) const{
+    vec3 min(
+        std::fmin(this->m_min.x(), rhs.m_min.x()),
+        std::fmin(this->m_min.y(), rhs.m_min.y()),
+        std::fmin(this->m_min.z(), rhs.m_min.z())
+    );
+
+    vec3 max(
+        std::fmax(this->m_max.x(), rhs.m_max.x()),
+        std::fmax(this->m_max.y(), rhs.m_max.y()),
+        std::fmax(this->m_max.z(), rhs.m_max.z())
+    );
+
+    return AxisAlignedBoundingBox(min, max);
 }
 
 vec3 AxisAlignedBoundingBox::min() const{
