@@ -9,7 +9,7 @@ BVHNode::BVHNode(){
 }
 
 BVHNode::BVHNode(Model** models, int num_models, double time_start, double time_end){
-    std::uniform_int_distribution rand_axis(0, 2);
+    std::uniform_int_distribution<int> rand_axis(0, 2);
     int axis = rand_axis(Raytracer::rng);
 
     if(axis == 0){
@@ -67,7 +67,7 @@ bool BVHNode::hit(const Ray& r, double t_min, double t_max, hit_record& rec) con
         bool hit_right = m_right->hit(r, t_min, t_max, rec_right);
 
         if(hit_left && hit_right){
-            rec = rec_right.t < rec_right.t ? rec_right : rec_left;
+            rec = rec_left.t < rec_right.t ? rec_left : rec_right;
             return true;
         } else if(hit_left){
             rec = rec_left;
