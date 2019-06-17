@@ -1,8 +1,8 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "Ray.h"
-#include "Model.h"
+#include "../engine/Ray.h"
+#include "../models/Model.h"
 
 class Material {
     public:

@@ -1,6 +1,6 @@
 #include "moving_sphere.h"
 
-#include "Raytracer.h"
+#include "../engine/Raytracer.h"
 
 #include <math.h>
 #include <random>

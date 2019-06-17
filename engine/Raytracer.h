@@ -1,12 +1,12 @@
 #ifndef RAYTRACER_H
 #define RAYTRACER_H
 
-#include "Model.h"
-#include "Material.h"
+#include "../models/Model.h"
+#include "../materials/Material.h"
 #include "Ray.h"
 #include "Camera.h"
-#include "ImageWrapper.h"
-#include "BVHNode.h"
+#include "../util/ImageWrapper.h"
+#include "../models/BVHNode.h"
 
 #include <vector>
 #include <string>

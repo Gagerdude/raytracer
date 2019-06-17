@@ -2,9 +2,9 @@
 #define MOVING_SPHERE_H
 
 #include "Model.h"
-#include "Material.h"
-#include "vec3.h"
-#include "Ray.h"
+#include "../materials/Material.h"
+#include "../engine/vec3.h"
+#include "../engine/Ray.h"
 
 class moving_sphere: public Model {
     public:
