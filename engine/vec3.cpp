@@ -260,8 +260,8 @@ vec3 reflect(const vec3& vec, const vec3& normal){
 
 bool refract(const vec3& vec, const vec3& normal, double refractive_index, vec3& refracted){
     vec3 uv = vec.normalized();
-    float dt = dot(uv, normal);
-    float discriminant = 1.0 - refractive_index * refractive_index * (1-dt*dt);
+    double dt = dot(uv, normal);
+    double discriminant = 1.0 - refractive_index * refractive_index * (1-dt*dt);
 
     if(discriminant > 0){
         refracted = refractive_index * (uv - normal * dt) - normal * sqrt(discriminant);
