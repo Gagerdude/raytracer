@@ -8,6 +8,17 @@ BVHNode::BVHNode(){
 
 }
 
+BVHNode::~BVHNode(){
+    delete m_right;
+    
+    if(m_right != m_left){
+        delete m_left;
+    }
+
+    m_right = nullptr;
+    m_left = nullptr;
+}
+
 BVHNode::BVHNode(Model** models, int num_models, double time_start, double time_end){
     std::uniform_int_distribution<int> rand_axis(0, 2);
     int axis = rand_axis(Raytracer::rng);
@@ -48,8 +59,8 @@ BVHNode::BVHNode(Model** models, int num_models, double time_start, double time_
         m_left = models[0];
         m_right = models[1];
     } else {
-        m_left = new BVHNode(models, num_models / 2, time_start, time_end);
-        m_right = new BVHNode(models + num_models / 2, num_models - (num_models / 2), time_start, time_end);
+        m_left = new BVHNode(models, (num_models / 2), time_start, time_end);
+        m_right = new BVHNode(models + (num_models / 2), num_models - (num_models / 2), time_start, time_end);
     }
 
     AxisAlignedBoundingBox box_left, box_right;

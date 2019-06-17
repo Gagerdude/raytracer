@@ -7,6 +7,7 @@
 class BVHNode: public Model{
     public:
         BVHNode();
+        ~BVHNode();
         BVHNode(Model** models, int num_models, double time_start, double time_end);
 
         virtual bool hit(const Ray& r, double t_min, double t_max, hit_record& rec) const;
