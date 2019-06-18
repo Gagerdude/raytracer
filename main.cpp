@@ -75,7 +75,7 @@ Camera make_camera(double aspect_ratio){
     return Camera(camera_origin, camera_target, camera_up, camera_fov, aspect_ratio, apeture_size, focal_length, 0, 1);
 }
 
-std::vector<Model*> make_scene(){
+std::vector<Model*> random_scene(){
     std::vector<Model*> list;
 
     list.push_back(new Sphere(vec3(0,-1000, 0), 1000, new Lambertian(new CheckeredTexture(new ConstantTexture(vec3(.2, .3, .1)), new ConstantTexture(vec3(.9, .9, .9))))));
@@ -112,6 +112,15 @@ std::vector<Model*> make_scene(){
     return list;
 }
 
+std::vector<Model*> two_spheres_scene(){
+    std::vector<Model*> list;
+
+    list.push_back(new Sphere(vec3(0,-10,0), 10, new Lambertian(new CheckeredTexture(new ConstantTexture(vec3(.2,.3,.1)), new ConstantTexture(vec3(.9,.9,.9))))));
+    list.push_back(new Sphere(vec3(0,10,0), 10, new Lambertian(new CheckeredTexture(new ConstantTexture(vec3(.2,.3,.1)), new ConstantTexture(vec3(.9,.9,.9))))));
+
+    return list;
+}
+
 int main(int argc, char** argv){
     Raytracer raytracer;
 
@@ -133,8 +142,9 @@ int main(int argc, char** argv){
 
     Camera cam = make_camera(double(res_x) / double(res_y));
     
-    std::vector<Model*> list = make_scene();
-
+    std::vector<Model*> list = random_scene();
+    // std::vector<Model*> list = two_spheres_scene();
+    
     std::string filename = make_filename(res_x, res_y, num_samples, max_reflections);
 
     ImageWrapper<double> image = raytracer.render(cam, list.data(), list.size(), res_x, res_y, num_samples, max_reflections);
