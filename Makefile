@@ -1,5 +1,7 @@
 CPP = g++ -std=c++17 -fPIC
 
+INCLUDES = -Iengine -Imaterials -Imodels -Itextures -Iutil
+
 CFLAGS = -c -O3 -Wall $(INCLUDES)
 
 SHARED_OBJS = \
