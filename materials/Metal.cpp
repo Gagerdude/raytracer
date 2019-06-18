@@ -1,6 +1,6 @@
 #include "Metal.h"
 
-Metal::Metal(const vec3& a, double f){
+Metal::Metal(Texture* a, double f){
     albedo = a;
     if(f > 1){
         fuzz = 1;
@@ -9,9 +9,13 @@ Metal::Metal(const vec3& a, double f){
     }
 }
 
+Metal::~Metal(){
+    delete albedo;
+}
+
 bool Metal::scatter(const Ray& ray_in, const hit_record& rec, vec3& attenuation, Ray& ray_scattered) const{
     vec3 reflected = reflect(ray_in.direction(), rec.normal);
     ray_scattered = Ray(rec.p, reflected + fuzz * vec3::random(), ray_in.time());
-    attenuation = albedo;
+    attenuation = albedo->value(0, 0, rec.p);
     return dot(ray_scattered.direction(), rec.normal) > 0;
 }
