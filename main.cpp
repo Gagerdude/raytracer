@@ -19,6 +19,9 @@
 #include "Metal.h"
 #include "Dielectric.h"
 
+#include "ConstantTexture.h"
+#include "CheckeredTexture.h"
+
 void get_params(int argc, char** argv, int& res_x, int& res_y, int& num_samples, int& num_threads, int& max_refl){
     while(argc > 2){
         argv++;
@@ -66,7 +69,7 @@ Camera make_camera(double aspect_ratio){
 
     double camera_fov = 40;
 
-    double apeture_size = .1;
+    double apeture_size = 0;
     double focal_length = (camera_origin - camera_target).length();
 
     return Camera(camera_origin, camera_target, camera_up, camera_fov, aspect_ratio, apeture_size, focal_length, 0, 1);
@@ -75,7 +78,7 @@ Camera make_camera(double aspect_ratio){
 std::vector<Model*> make_scene(){
     std::vector<Model*> list;
 
-    list.push_back(new Sphere(vec3(0,-1000, 0), 1000, new Lambertian(vec3(.5,.5,.5))));
+    list.push_back(new Sphere(vec3(0,-1000, 0), 1000, new Lambertian(new CheckeredTexture(new ConstantTexture(vec3(.2, .3, .1)), new ConstantTexture(vec3(.9, .9, .9))))));
 
     std::uniform_real_distribution<double> dist;
 
@@ -88,10 +91,10 @@ std::vector<Model*> make_scene(){
             if((center-vec3(4,.2,0)).length() > .9){
                 if(choose_mat < .8){    // diffuse
                     vec3 color(dist(Raytracer::rng)*dist(Raytracer::rng), dist(Raytracer::rng)*dist(Raytracer::rng), dist(Raytracer::rng)*dist(Raytracer::rng));
-                    list.push_back(new moving_sphere(center, center + vec3(0, .5*dist(Raytracer::rng), 0), 0, 1, .2, new Lambertian(color)));
+                    list.push_back(new moving_sphere(center, center + vec3(0, .5*dist(Raytracer::rng), 0), 0, 1, .2, new Lambertian(new ConstantTexture(color))));
                 } else if(choose_mat < .95){    // metal
                     vec3 color(.5 * (1 + dist(Raytracer::rng)), .5 * (1 + dist(Raytracer::rng)), .5 * (1 + dist(Raytracer::rng)));
-                    list.push_back(new Sphere(center, .2, new Metal(color, dist(Raytracer::rng))));
+                    list.push_back(new Sphere(center, .2, new Metal(new ConstantTexture(color), dist(Raytracer::rng))));
                 } else {    // glass
                     list.push_back(new Sphere(center, .2, new Dielectric(1.5)));
                 }
@@ -99,13 +102,9 @@ std::vector<Model*> make_scene(){
         }
     }
 
-    for(int i = 0; i < 1; i++){
-        list.push_back(new Sphere(vec3(-4 - i*4,1,0), 1, new Lambertian(vec3(.4,.2,.1))));
-    }
-
     list.push_back(new Sphere(vec3(0,1,0), 1, new Dielectric(1.5)));
-    list.push_back(new Sphere(vec3(-4,1,0), 1, new Lambertian(vec3(.4,.2,.1))));
-    list.push_back(new Sphere(vec3(4,1,0), 1, new Metal(vec3(.7,.6,.5), 0)));
+    list.push_back(new Sphere(vec3(-4,1,0), 1, new Lambertian(new ConstantTexture(vec3(.4,.2,.1)))));
+    list.push_back(new Sphere(vec3(4,1,0), 1, new Metal(new ConstantTexture(vec3(.7,.6,.5)), 0)));
 
     std::random_device rd;
     Raytracer::rng.seed(rd());
