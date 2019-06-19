@@ -4,8 +4,10 @@ CFLAGS = -c -O3 -Wall
 
 OBJS = Camera.o Ray.o Raytracer.o vec3.o
 
+LIBS = -lpthread
+
 libEngine.so: $(OBJS)
-	g++ -shared -o libEngine.so $(OBJS) 
+	g++ -shared -o libEngine.so $(OBJS) $(LIBS)
 
 Camera.o: Camera.h Camera.cpp
 	$(CPP) $(CFLAGS) Camera.cpp
