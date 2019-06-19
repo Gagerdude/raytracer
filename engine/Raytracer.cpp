@@ -18,8 +18,6 @@ ImageWrapper<double> Raytracer::render(const Camera& camera, Model** Model_array
 
     BVHNode* scene_bvh = new BVHNode(Model_array, num_Models, camera.time_start, camera.time_end);
 
-    std::cout << "Working with " << num_threads << " threads" << std::endl;
-
     std::queue<std::function<void()>> work_queue;
     std::mutex work_queue_mutex;
 
@@ -42,8 +40,6 @@ ImageWrapper<double> Raytracer::render(const Camera& camera, Model** Model_array
             int end_x = start_x + block_res_x;
             int end_y = start_y + block_res_y;
 
-            std::cout << start_x << ' ' << end_x << ' ' << start_y << ' ' << end_y << std::endl;
-
             work_queue.push(std::bind(&Raytracer::render_block, this, std::ref(arr), std::ref(camera), scene_bvh, start_x, end_x, start_y, end_y, num_samples, max_reflections));
 
             y_left -= block_res_y;
@@ -62,7 +58,6 @@ ImageWrapper<double> Raytracer::render(const Camera& camera, Model** Model_array
     }
     for(int i = 0; i < num_threads; i++){
         threads[i].join();
-        std::cout << "Joined " << i << " Threads" << std::endl;
     }
     
     delete scene_bvh;
@@ -100,7 +95,7 @@ void Raytracer::render_async(std::queue<std::function<void()>>& work_queue, std:
     while(!work_queue.empty()){
         std::function<void()> fnc = work_queue.front();
         work_queue.pop();
-        std::cout << "Running again" << std::endl;
+        
         work_queue_mutex.unlock();
         
         fnc();
