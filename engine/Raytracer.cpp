@@ -73,8 +73,8 @@ ImageWrapper<double> Raytracer::render(const Camera& camera, Model** Model_array
 void Raytracer::render_block(ImageWrapper<double>& img, const Camera& camera, BVHNode* scene, int x_start, int x_end, int y_start, int y_end, int num_samples, int max_reflections) const{
     std::uniform_real_distribution<double> dist;
 
-    for(int j = img.y() - 1; j >= 0; j--){
-        for(int i = 0; i < img.x(); i++){
+    for(int j = y_start; j < y_end; j++){
+        for(int i = x_start; i < x_end; i++){
             vec3 this_color(0, 0, 0);
             for(int s = 0; s < num_samples; s++){
                 double u = double(i + dist(Raytracer::rng)) / double(img.x());
@@ -91,7 +91,6 @@ void Raytracer::render_block(ImageWrapper<double>& img, const Camera& camera, BV
             img.set(this_color.g(), i, j, 1);
             img.set(this_color.b(), i, j, 2);
         }
-        std::cout << j << std::endl;
     }
 }
 
