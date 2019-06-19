@@ -2,20 +2,68 @@
 
 #include <limits>
 #include <random>
+#include <functional>
+#include <thread>
 
 #include <iostream>
+
 
 thread_local std::random_device Raytracer::rd = std::random_device();
 thread_local std::mt19937 Raytracer::rng = std::mt19937(Raytracer::rd());
 
 Raytracer::Raytracer(){}
 
-ImageWrapper<double> Raytracer::render(const Camera& camera, Model** Model_array, int num_Models, int resolution_x, int resolution_y, int num_samples, int max_reflections) const{
+ImageWrapper<double> Raytracer::render(const Camera& camera, Model** Model_array, int num_Models, int resolution_x, int resolution_y, int num_samples, int max_reflections, int num_threads) const{
     ImageWrapper<double> arr(resolution_x, resolution_y, 3);
 
     BVHNode* scene_bvh = new BVHNode(Model_array, num_Models, camera.time_start, camera.time_end);
 
-    render_block(arr, camera, scene_bvh, 0, resolution_x, 0, resolution_y, num_samples, max_reflections);
+    std::cout << "Working with " << num_threads << " threads" << std::endl;
+
+    std::queue<std::function<void()>> work_queue;
+    std::mutex work_queue_mutex;
+
+    int target_block_size = 32;
+
+    int block_count_x = (resolution_x < target_block_size) ? 1 : resolution_x / target_block_size;
+    int block_count_y = (resolution_y < target_block_size) ? 1 : resolution_y / target_block_size;
+
+
+    int x_left = resolution_x;
+    for(int x = block_count_x; x > 0; x--){
+        int block_res_x = x_left / x;
+
+        int y_left = resolution_y;
+        for(int y = block_count_y; y > 0; y--){
+            int block_res_y = y_left / y;
+
+            int start_x = resolution_x - x_left;
+            int start_y = resolution_y - y_left;
+            int end_x = start_x + block_res_x;
+            int end_y = start_y + block_res_y;
+
+            std::cout << start_x << ' ' << end_x << ' ' << start_y << ' ' << end_y << std::endl;
+
+            work_queue.push(std::bind(&Raytracer::render_block, this, std::ref(arr), std::ref(camera), scene_bvh, start_x, end_x, start_y, end_y, num_samples, max_reflections));
+
+            y_left -= block_res_y;
+        }
+
+        x_left -= block_res_x;
+    }
+
+    if(block_count_x * block_count_y < num_threads){
+        num_threads = block_count_x * block_count_y;
+    }
+
+    std::vector<std::thread> threads;
+    for(int i = 0; i < num_threads; i++){
+        threads.push_back(std::thread(&Raytracer::render_async, this, std::ref(work_queue), std::ref(work_queue_mutex)));
+    }
+    for(int i = 0; i < num_threads; i++){
+        threads[i].join();
+        std::cout << "Joined " << i << " Threads" << std::endl;
+    }
     
     delete scene_bvh;
 
@@ -43,7 +91,25 @@ void Raytracer::render_block(ImageWrapper<double>& img, const Camera& camera, BV
             img.set(this_color.g(), i, j, 1);
             img.set(this_color.b(), i, j, 2);
         }
+        std::cout << j << std::endl;
     }
+}
+
+void Raytracer::render_async(std::queue<std::function<void()>>& work_queue, std::mutex& work_queue_mutex) const{
+    work_queue_mutex.lock();
+    
+    while(!work_queue.empty()){
+        std::function<void()> fnc = work_queue.front();
+        work_queue.pop();
+        std::cout << "Running again" << std::endl;
+        work_queue_mutex.unlock();
+        
+        fnc();
+
+        work_queue_mutex.lock();
+    }
+
+    work_queue_mutex.unlock();
 }
 
 vec3 Raytracer::color(const Ray& ray, BVHNode* bvh, int ray_depth, int max_ray_depth) const{
