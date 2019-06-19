@@ -15,31 +15,35 @@ ImageWrapper<double> Raytracer::render(const Camera& camera, Model** Model_array
 
     BVHNode* scene_bvh = new BVHNode(Model_array, num_Models, camera.time_start, camera.time_end);
 
-    std::uniform_real_distribution<double> dist;
-
-    for(int j = arr.y() - 1; j >= 0; j--){
-        for(int i = 0; i < arr.x(); i++){
-            vec3 this_color(0, 0, 0);
-            for(int s = 0; s < num_samples; s++){
-                double u = double(i + dist(Raytracer::rng)) / double(arr.x());
-                double v = double(j + dist(Raytracer::rng)) / double(arr.y());
-
-                Ray ray = camera.cast_ray(u, v);
-
-                this_color += color(ray, scene_bvh, 0, max_reflections);
-            }
-
-            this_color /= num_samples;
-            
-            arr.set(this_color.r(), i, j, 0);
-            arr.set(this_color.g(), i, j, 1);
-            arr.set(this_color.b(), i, j, 2);
-        }
-    }
+    render_block(arr, camera, scene_bvh, 0, resolution_x, 0, resolution_y, num_samples, max_reflections);
     
     delete scene_bvh;
 
     return arr;
+}
+
+void Raytracer::render_block(ImageWrapper<double>& img, const Camera& camera, BVHNode* scene, int x_start, int x_end, int y_start, int y_end, int num_samples, int max_reflections) const{
+    std::uniform_real_distribution<double> dist;
+
+    for(int j = img.y() - 1; j >= 0; j--){
+        for(int i = 0; i < img.x(); i++){
+            vec3 this_color(0, 0, 0);
+            for(int s = 0; s < num_samples; s++){
+                double u = double(i + dist(Raytracer::rng)) / double(img.x());
+                double v = double(j + dist(Raytracer::rng)) / double(img.y());
+
+                Ray ray = camera.cast_ray(u, v);
+
+                this_color += color(ray, scene, 0, max_reflections);
+            }
+
+            this_color /= num_samples;
+            
+            img.set(this_color.r(), i, j, 0);
+            img.set(this_color.g(), i, j, 1);
+            img.set(this_color.b(), i, j, 2);
+        }
+    }
 }
 
 vec3 Raytracer::color(const Ray& ray, BVHNode* bvh, int ray_depth, int max_ray_depth) const{
