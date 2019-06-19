@@ -136,10 +136,6 @@ int main(int argc, char** argv){
     // see if anything was passed in as a command line parameter
     get_params(argc, argv, res_x, res_y, num_samples, num_threads, max_reflections);
 
-    if(num_samples < num_threads){
-        num_threads = num_samples;
-    }
-
     Camera cam = make_camera(double(res_x) / double(res_y));
     
     std::vector<Model*> list = random_scene();
@@ -147,7 +143,7 @@ int main(int argc, char** argv){
     
     std::string filename = make_filename(res_x, res_y, num_samples, max_reflections);
 
-    ImageWrapper<double> image = raytracer.render(cam, list.data(), list.size(), res_x, res_y, num_samples, max_reflections);
+    ImageWrapper<double> image = raytracer.render(cam, list.data(), list.size(), res_x, res_y, num_samples, max_reflections, num_threads);
 
     PNGWriter png(filename);
     png.write(image);
