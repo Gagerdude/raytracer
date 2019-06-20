@@ -1,6 +1,6 @@
 #include "BVHNode.h"
 
-#include "../engine/Raytracer.h"
+#include "Raytracer.h"
 
 #include <algorithm>
 

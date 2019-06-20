@@ -1,8 +1,8 @@
 #ifndef AXIS_ALIGNED_BOUNDING_BOX_H
 #define AXIS_ALIGNED_BOUNDING_BOX_H
 
-#include "../engine/vec3.h"
-#include "../engine/Ray.h"
+#include "vec3.h"
+#include "Ray.h"
 
 class AxisAlignedBoundingBox{
     public:

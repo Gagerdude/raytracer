@@ -2,9 +2,9 @@
 #define SPHERE_H
 
 #include "Model.h"
-#include "../materials/Material.h"
-#include "../engine/vec3.h"
-#include "../engine/Ray.h"
+#include "Material.h"
+#include "vec3.h"
+#include "Ray.h"
 
 class Sphere: public Model {
     public:

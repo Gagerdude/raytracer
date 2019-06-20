@@ -1,7 +1,7 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include "../engine/Ray.h"
+#include "Ray.h"
 #include "AxisAlignedBoundingBox.h"
 
 class Material;

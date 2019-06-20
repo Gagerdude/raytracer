@@ -2,7 +2,7 @@
 #define LAMBERTIAN_H
 
 #include "Material.h"
-#include "../textures/Texture.h"
+#include "Texture.h"
 
 class Lambertian: public Material {
     public:

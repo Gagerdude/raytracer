@@ -1,6 +1,6 @@
 #include "Dielectric.h"
 
-#include "../engine/Raytracer.h"
+#include "Raytracer.h"
 
 #include <random>
 #include <cmath>

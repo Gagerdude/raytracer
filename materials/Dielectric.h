@@ -2,7 +2,7 @@
 #define DIELECTRIC_H
 
 #include "Material.h"
-#include "../engine/Ray.h"
+#include "Ray.h"
 
 class Dielectric: public Material {
     public:

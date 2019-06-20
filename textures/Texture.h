@@ -1,7 +1,7 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "../engine/vec3.h"
+#include "vec3.h"
 
 class Texture{
     public:
