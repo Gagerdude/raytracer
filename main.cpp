@@ -7,6 +7,7 @@
 
 #include "Raytracer.h"
 #include "PNGWriter.h"
+#include "PNGReader.h"
 
 #include "vec3.h"
 #include "Camera.h"
@@ -21,6 +22,8 @@
 
 #include "ConstantTexture.h"
 #include "CheckeredTexture.h"
+#include "NoiseTexture.h"
+#include "ImageTexture.h"
 
 void get_params(int argc, char** argv, int& res_x, int& res_y, int& num_samples, int& num_threads, int& max_refl){
     while(argc > 2){
@@ -121,6 +124,25 @@ std::vector<Model*> two_spheres_scene(){
     return list;
 }
 
+std::vector<Model*> two_perlin_spheres_scene(){
+    std::vector<Model*> list;
+
+    list.push_back(new Sphere(vec3(0,-1000,0), 1000, new Lambertian(new NoiseTexture(4))));
+    list.push_back(new Sphere(vec3(0,2,0), 2, new Lambertian(new NoiseTexture(4))));
+
+    return list;
+}
+
+std::vector<Model*> earth_scene(){
+    std::vector<Model*> list;
+
+    PNGReader img("Earth.png");
+
+    list.push_back(new Sphere(vec3(0,0,0), 2, new Lambertian(new ImageTexture(img.image))));
+
+    return list;
+}
+
 int main(int argc, char** argv){
     Raytracer raytracer;
 
@@ -138,8 +160,11 @@ int main(int argc, char** argv){
 
     Camera cam = make_camera(double(res_x) / double(res_y));
     
-    std::vector<Model*> list = random_scene();
-    // std::vector<Model*> list = two_spheres_scene();
+    std::vector<Model*> list;
+    // list = random_scene();
+    // list = two_spheres_scene();
+    // list = two_perlin_spheres_scene();
+    list = earth_scene();
     
     std::string filename = make_filename(res_x, res_y, num_samples, max_reflections);
 
