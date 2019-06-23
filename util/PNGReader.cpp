@@ -51,7 +51,6 @@ PNGReader::PNGReader(std::string fileName){
     png_uint_32 imgHeight = png_get_image_height(pngPtr, infoPtr);
     png_uint_32 bitdepth = png_get_bit_depth(pngPtr, infoPtr);
     png_uint_32 channels = png_get_channels(pngPtr, infoPtr);
-    png_uint_32 color_type = png_get_color_type(pngPtr, infoPtr);
 
     image = ImageWrapper<unsigned char>(imgWidth, imgHeight, channels);
 
