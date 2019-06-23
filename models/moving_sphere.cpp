@@ -51,6 +51,8 @@ bool moving_sphere::hit(const Ray& r, double t_min, double t_max, hit_record& re
             rec.normal = (rec.p - center(r.time())) / radius;
             rec.material = material;
 
+            get_uv(rec.normal, rec.u, rec.v);
+
             return true;
         }
 
@@ -64,6 +66,8 @@ bool moving_sphere::hit(const Ray& r, double t_min, double t_max, hit_record& re
             rec.p = r.point_on_ray(t);
             rec.normal = (rec.p - center(r.time())) / radius;
             rec.material = material;
+
+            get_uv(rec.normal, rec.u, rec.v);
 
             return true;
         }
@@ -82,4 +86,12 @@ bool moving_sphere::bounding_box(double time_start, double time_end, AxisAligned
 
 vec3 moving_sphere::center(double time) const{
     return center_start + ((time - time_start) / (time_end - time_start)) * (center_end - center_start);
+}
+
+void moving_sphere::get_uv(const vec3& p, double& u, double& v) const{
+    double phi = std::atan2(p.z(), p.x());
+    double theta = std::asin(p.y());
+
+    u = (1 - (phi + M_PI)) / (2 * M_PI);
+    v = (theta + M_PI_2) / M_PI;
 }

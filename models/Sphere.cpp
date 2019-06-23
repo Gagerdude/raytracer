@@ -42,6 +42,8 @@ bool Sphere::hit(const Ray& r, double t_min, double t_max, hit_record& rec) cons
             rec.normal = (rec.p - center) / radius;
             rec.material = material;
 
+            get_uv(rec.normal, rec.u, rec.v);
+
             return true;
         }
 
@@ -56,6 +58,8 @@ bool Sphere::hit(const Ray& r, double t_min, double t_max, hit_record& rec) cons
             rec.normal = (rec.p - center) / radius;
             rec.material = material;
 
+            get_uv(rec.normal, rec.u, rec.v);
+
             return true;
         }
     }
@@ -66,4 +70,12 @@ bool Sphere::hit(const Ray& r, double t_min, double t_max, hit_record& rec) cons
 bool Sphere::bounding_box(double time_start, double time_end, AxisAlignedBoundingBox& box) const{
     box = AxisAlignedBoundingBox(center - vec3(radius), center + vec3(radius));
     return true;
+}
+
+void Sphere::get_uv(const vec3& p, double& u, double& v) const{
+    double phi = std::atan2(p.z(), p.x());
+    double theta = std::asin(p.y());
+
+    u = (1 - (phi + M_PI)) / (2 * M_PI);
+    v = (theta + M_PI_2) / M_PI;
 }
