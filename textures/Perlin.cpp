@@ -66,7 +66,6 @@ static vec3* perlin_generate(){
 
     for(int i = 0; i < 256; i++){
         rand_array[i] = vec3::random();
-        std::cout << rand_array[i] << std::endl;
     }
 
     return rand_array;
