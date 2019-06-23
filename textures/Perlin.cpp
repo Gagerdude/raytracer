@@ -26,6 +26,20 @@ double perlin_interpolate(vec3 c[2][2][2], double u, double v, double w){
     return sum;
 }
 
+Perlin::Perlin(){
+    ranvec = perlin_generate();
+    perm_x = perlin_generate_permutation();
+    perm_y = perlin_generate_permutation();
+    perm_z = perlin_generate_permutation();
+}
+
+Perlin::~Perlin(){
+    delete[] ranvec;
+    delete[] perm_x;
+    delete[] perm_y;
+    delete[] perm_z;
+}
+
 double Perlin::noise(const vec3& p) const{
     double u = p.x() - std::floor(p.x());
     double v = p.y() - std::floor(p.y());
@@ -61,7 +75,7 @@ double Perlin::turbulence(vec3 p, int depth) const{
     return std::abs(sum);
 }
 
-static vec3* perlin_generate(){
+vec3* Perlin::perlin_generate(){
     vec3* rand_array = new vec3[256];
 
     for(int i = 0; i < 256; i++){
@@ -71,7 +85,7 @@ static vec3* perlin_generate(){
     return rand_array;
 }
 
-void permute(int* array, int array_size){
+void Perlin::permute(int* array, int array_size){
     std::uniform_real_distribution<double> dist(0, 1);
 
     for(int i = array_size - 1; i > 0; i--){
@@ -80,7 +94,7 @@ void permute(int* array, int array_size){
     }
 }
 
-static int* perlin_generate_permutation(){
+int* Perlin::perlin_generate_permutation(){
     int* array = new int[256];
 
     for(int i = 0; i < 256; i++){
@@ -91,8 +105,3 @@ static int* perlin_generate_permutation(){
     
     return array;
 }
-
-vec3* Perlin::ranvec = perlin_generate();
-int* Perlin::perm_x = perlin_generate_permutation();
-int* Perlin::perm_y = perlin_generate_permutation();
-int* Perlin::perm_z = perlin_generate_permutation();
