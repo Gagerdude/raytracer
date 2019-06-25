@@ -15,10 +15,12 @@
 #include "Model.h"
 #include "Sphere.h"
 #include "moving_sphere.h"
+#include "RectangleXY.h"
 
 #include "Lambertian.h"
 #include "Metal.h"
 #include "Dielectric.h"
+#include "DiffuseLight.h"
 
 #include "ConstantTexture.h"
 #include "CheckeredTexture.h"
@@ -143,6 +145,17 @@ std::vector<Model*> earth_scene(){
     return list;
 }
 
+std::vector<Model*> light_scene(){
+    std::vector<Model*> list;
+
+    list.push_back(new Sphere(vec3(0,-1000,0), 1000, new Lambertian(new NoiseTexture(4))));
+    list.push_back(new Sphere(vec3(0,2,0), 2, new Lambertian(new NoiseTexture(4))));
+    list.push_back(new Sphere(vec3(0,7,0), 2, new DiffuseLight(new ConstantTexture(vec3(4,4,4)))));
+    list.push_back(new RectangleXY(3, 5, 1, 3, -2, new DiffuseLight(new ConstantTexture(vec3(4,4,4)))));
+
+    return list;
+}
+
 int main(int argc, char** argv){
     Raytracer raytracer;
 
@@ -164,7 +177,8 @@ int main(int argc, char** argv){
     // list = random_scene();
     // list = two_spheres_scene();
     // list = two_perlin_spheres_scene();
-    list = earth_scene();
+    // list = earth_scene();
+    list = light_scene();
     
     std::string filename = make_filename(res_x, res_y, num_samples, max_reflections);
 
