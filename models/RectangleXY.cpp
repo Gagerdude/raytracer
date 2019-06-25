@@ -44,6 +44,6 @@ bool RectangleXY::hit(const Ray& r, double t_min, double t_max, hit_record& rec)
 }
 
 bool RectangleXY::bounding_box(double time_start, double time_end, AxisAlignedBoundingBox& box) const{
-    box = AxisAlignedBoundingBox(vec3(x_min, y_min, z - .0001), vec3(y_max, x_max, z + .0001));
+    box = AxisAlignedBoundingBox(vec3(x_min, y_min, z - .0001), vec3(x_max, y_max, z + .0001));
     return true;
 }
