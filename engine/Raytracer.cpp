@@ -18,8 +18,8 @@ ImageWrapper<double> Raytracer::render(const Camera& camera, Model** Model_array
 
     Model* scene;
 
-    // scene = new BVHNode(Model_array, num_Models, camera.time_start, camera.time_end);
-    scene = new Scene(Model_array, num_Models);
+    scene = new BVHNode(Model_array, num_Models, camera.time_start, camera.time_end);
+    // scene = new Scene(Model_array, num_Models);
 
     std::queue<std::function<void()>> work_queue;
     std::mutex work_queue_mutex;
