@@ -9,6 +9,9 @@ Scene::Scene(Model** models, int num_models){
 }
 
 Scene::~Scene(){
+    for(int i = 0; i < scene_size; i++){
+        delete scene[i];
+    }
     delete[] scene;
 }
 
