@@ -16,6 +16,9 @@
 #include "Sphere.h"
 #include "moving_sphere.h"
 #include "RectangleXY.h"
+#include "RectangleXZ.h"
+#include "RectangleYZ.h"
+#include "Box.h"
 
 #include "Lambertian.h"
 #include "Metal.h"
@@ -76,6 +79,19 @@ Camera make_camera(double aspect_ratio){
 
     double apeture_size = 0;
     double focal_length = (camera_origin - camera_target).length();
+
+    return Camera(camera_origin, camera_target, camera_up, camera_fov, aspect_ratio, apeture_size, focal_length, 0, 1);
+}
+
+Camera make_cornell_camera(double aspect_ratio){
+    vec3 camera_origin(278, 278, -800);
+    vec3 camera_target(278, 278, 0);
+    vec3 camera_up(0, 1, 0);
+
+    double camera_fov = 64;
+
+    double apeture_size = 0;
+    double focal_length = 10;
 
     return Camera(camera_origin, camera_target, camera_up, camera_fov, aspect_ratio, apeture_size, focal_length, 0, 1);
 }
@@ -156,6 +172,22 @@ std::vector<Model*> light_scene(){
     return list;
 }
 
+std::vector<Model*> cornell_box_scene(){
+    std::vector<Model*> list;
+
+    list.push_back(new RectangleYZ(0, 555, 0, 555, 555, new Lambertian(new ConstantTexture(vec3(.12,.45,.15)))));
+    list.push_back(new RectangleYZ(0, 555, 0, 555, 0, new Lambertian(new ConstantTexture(vec3(.65,.05,.05)))));
+    list.push_back(new RectangleXZ(213, 343, 227, 332, 554, new DiffuseLight(new ConstantTexture(vec3(15,15,15)))));
+    list.push_back(new RectangleXZ(0, 555, 0, 555, 555, new Lambertian(new ConstantTexture(vec3(.73,.73,.73)))));
+    list.push_back(new RectangleXZ(0, 555, 0, 555, 0, new Lambertian(new ConstantTexture(vec3(.73,.73,.73)))));
+    list.push_back(new RectangleXY(0, 555, 0, 555, 555, new Lambertian(new ConstantTexture(vec3(.73,.73,.73)))));
+
+    list.push_back(new Box(vec3(130,0,65), vec3(295, 165, 230), new Lambertian(new ConstantTexture(.73))));
+    list.push_back(new Box(vec3(265, 0, 295), vec3(430, 330, 460), new Lambertian(new ConstantTexture(vec3(.73)))));
+
+    return list;
+}
+
 int main(int argc, char** argv){
     Raytracer raytracer;
 
@@ -171,14 +203,16 @@ int main(int argc, char** argv){
     // see if anything was passed in as a command line parameter
     get_params(argc, argv, res_x, res_y, num_samples, num_threads, max_reflections);
 
-    Camera cam = make_camera(double(res_x) / double(res_y));
+    // Camera cam = make_camera(double(res_x) / double(res_y));
+    Camera cam = make_cornell_camera(double(res_x) / double(res_y));
     
     std::vector<Model*> list;
     // list = random_scene();
     // list = two_spheres_scene();
     // list = two_perlin_spheres_scene();
     // list = earth_scene();
-    list = light_scene();
+    // list = light_scene();
+    list = cornell_box_scene();
     
     std::string filename = make_filename(res_x, res_y, num_samples, max_reflections);
 
