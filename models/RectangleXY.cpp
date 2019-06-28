@@ -36,7 +36,7 @@ bool RectangleXY::hit(const Ray& r, double t_min, double t_max, hit_record& rec)
     rec.u = (x - x_min) / (x_max - x_min);
     rec.v = (y - y_min) / (y_max - y_min);
 
-    if(dot(rec.normal, r.direction()) < 0){
+    if(dot(rec.normal, r.direction()) > 0){
         rec.normal = vec3(0, 0, -1);
     }
 
