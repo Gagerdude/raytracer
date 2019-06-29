@@ -10,7 +10,7 @@ RotateY::RotateY(Model* model, double theta){
     m_has_box = m_model->bounding_box(0, 1, m_box);
 
     vec3 min(std::numeric_limits<double>::max());
-    vec3 max(std::numeric_limits<double>::min());
+    vec3 max(std::numeric_limits<double>::lowest());
 
     for(int i = 0; i < 2; i++){
         for(int j = 0; j < 2; j++){
