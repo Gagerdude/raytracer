@@ -19,6 +19,10 @@
 #include "RectangleXZ.h"
 #include "RectangleYZ.h"
 #include "Box.h"
+#include "ConstantMedium.h"
+
+#include "Translate.h"
+#include "RotateY.h"
 
 #include "Lambertian.h"
 #include "Metal.h"
@@ -182,8 +186,24 @@ std::vector<Model*> cornell_box_scene(){
     list.push_back(new RectangleXZ(0, 555, 0, 555, 0, new Lambertian(new ConstantTexture(vec3(.73,.73,.73)))));
     list.push_back(new RectangleXY(0, 555, 0, 555, 555, new Lambertian(new ConstantTexture(vec3(.73,.73,.73)))));
 
-    list.push_back(new Box(vec3(130,0,65), vec3(295, 165, 230), new Lambertian(new ConstantTexture(.73))));
-    list.push_back(new Box(vec3(265, 0, 295), vec3(430, 330, 460), new Lambertian(new ConstantTexture(vec3(.73)))));
+    list.push_back(new Translate(new RotateY(new Box(vec3(0), vec3(165), new Lambertian(new ConstantTexture(.73))), -18), vec3(130, 0, 65)));
+    list.push_back(new Translate(new RotateY(new Box(vec3(0), vec3(165, 330, 165), new Lambertian(new ConstantTexture(.73))), 15), vec3(265, 0, 295)));
+
+    return list;
+}
+
+std::vector<Model*> cornell_box_smoke_scene(){
+    std::vector<Model*> list;
+
+    list.push_back(new RectangleYZ(0, 555, 0, 555, 555, new Lambertian(new ConstantTexture(vec3(.12,.45,.15)))));
+    list.push_back(new RectangleYZ(0, 555, 0, 555, 0, new Lambertian(new ConstantTexture(vec3(.65,.05,.05)))));
+    list.push_back(new RectangleXZ(113, 443, 127, 432, 554, new DiffuseLight(new ConstantTexture(vec3(7,7,7)))));
+    list.push_back(new RectangleXZ(0, 555, 0, 555, 555, new Lambertian(new ConstantTexture(vec3(.73,.73,.73)))));
+    list.push_back(new RectangleXZ(0, 555, 0, 555, 0, new Lambertian(new ConstantTexture(vec3(.73,.73,.73)))));
+    list.push_back(new RectangleXY(0, 555, 0, 555, 555, new Lambertian(new ConstantTexture(vec3(.73,.73,.73)))));
+
+    list.push_back(new ConstantMedium(new Translate(new RotateY(new Box(vec3(0), vec3(165), new Lambertian(new ConstantTexture(.73))), -18), vec3(130, 0, 65)), .01, new ConstantTexture(vec3(1))));
+    list.push_back(new ConstantMedium(new Translate(new RotateY(new Box(vec3(0), vec3(165, 330, 165), new Lambertian(new ConstantTexture(.73))), 15), vec3(265, 0, 295)), .01, new ConstantTexture(vec3(0))));
 
     return list;
 }
@@ -212,7 +232,8 @@ int main(int argc, char** argv){
     // list = two_perlin_spheres_scene();
     // list = earth_scene();
     // list = light_scene();
-    list = cornell_box_scene();
+    // list = cornell_box_scene();
+    list = cornell_box_smoke_scene();
     
     std::string filename = make_filename(res_x, res_y, num_samples, max_reflections);
 
