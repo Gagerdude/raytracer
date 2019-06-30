@@ -14,6 +14,10 @@ RectangleXY::RectangleXY(double _x_min, double _x_max, double _y_min, double _y_
     material = m;
 }
 
+RectangleXY::~RectangleXY(){
+    delete material;
+}
+
 bool RectangleXY::hit(const Ray& r, double t_min, double t_max, hit_record& rec) const{
     double t = (z - r.origin().z()) / r.direction().z();
 
