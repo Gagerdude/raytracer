@@ -100,6 +100,19 @@ Camera make_cornell_camera(double aspect_ratio){
     return Camera(camera_origin, camera_target, camera_up, camera_fov, aspect_ratio, apeture_size, focal_length, 0, 1);
 }
 
+Camera make_final_camera(double aspect_ratio){
+    vec3 camera_origin(550, 300, -550);
+    vec3 camera_target(0, 300, 800);
+    vec3 camera_up(0, 1, 0);
+
+    double camera_fov = 40;
+
+    double apeture_size = 0;
+    double focal_length = 10;
+
+    return Camera(camera_origin, camera_target, camera_up, camera_fov, aspect_ratio, apeture_size, focal_length, 0, 1);
+}
+
 std::vector<Model*> random_scene(){
     std::vector<Model*> list;
 
@@ -208,6 +221,52 @@ std::vector<Model*> cornell_box_smoke_scene(){
     return list;
 }
 
+std::vector<Model*> final_scene(){
+    std::vector<Model*> list;
+
+    std::uniform_real_distribution<double> dist;
+
+    for(int i = 0; i < 20; i++){
+        for(int j = 0; j < 20; j++){
+            double w = 100;
+            double x = -1000 + i * w;
+            double z = -1000 + j * w;
+            double y = 0;
+            double x_1 = x + w;
+            double y_1 = 100 * (dist(Raytracer::rng) + .01);
+            double z_1 = z + w;
+
+            list.push_back(new Box(vec3(x,y,z), vec3(x_1, y_1, z_1), new Lambertian(new ConstantTexture(vec3(.48, .83, .53)))));
+        }
+    }
+
+    list.push_back(new RectangleXZ(123, 423, 147, 412, 554, new DiffuseLight(new ConstantTexture(vec3(7)))));
+    
+    vec3 center(400, 400, 200);
+    list.push_back(new moving_sphere(center, center + vec3(30,0,0), 0, 1, 50, new Lambertian(new ConstantTexture(vec3(.7, .3, .1)))));
+
+    list.push_back(new Sphere(vec3(260, 150, 45), 50, new Dielectric(1.5)));
+    
+    list.push_back(new Sphere(vec3(0, 150, 145), 50, new Metal(new ConstantTexture(vec3(.8, .8, .9)), 10)));
+    
+    list.push_back(new Sphere(vec3(360, 150, 147), 70, new Dielectric(1.5)));
+
+    list.push_back(new ConstantMedium(new Sphere(vec3(360, 150, 147), 70, new Dielectric(1.5)), .2, new ConstantTexture(vec3(.2, .4, .9))));
+
+    list.push_back(new ConstantMedium(new Sphere(vec3(0), 5000, new Dielectric(1.5)), .0001, new ConstantTexture(vec3(1))));
+
+    PNGReader img("Earth.png");
+    list.push_back(new Sphere(vec3(400, 200, 400), 100, new Lambertian(new ImageTexture(img.image))));
+
+    list.push_back(new Sphere(vec3(220, 280, 300), 80, new Lambertian(new NoiseTexture(.1))));
+
+    for(int i = 0; i < 1000; i++){
+        list.push_back(new Translate(new RotateY(new Sphere(vec3(165 * dist(Raytracer::rng), 165 * dist(Raytracer::rng), 165 * dist(Raytracer::rng)), 10, new Lambertian(new ConstantTexture(vec3(.48, .83, .53)))), 15), vec3(-100, 270, 395)));
+    }
+
+    return list;
+}
+
 int main(int argc, char** argv){
     Raytracer raytracer;
 
@@ -224,8 +283,10 @@ int main(int argc, char** argv){
     get_params(argc, argv, res_x, res_y, num_samples, num_threads, max_reflections);
 
     // Camera cam = make_camera(double(res_x) / double(res_y));
-    Camera cam = make_cornell_camera(double(res_x) / double(res_y));
-    
+    // Camera cam = make_cornell_camera(double(res_x) / double(res_y));
+    Camera cam = make_final_camera(double(res_x) / double(res_y));
+
+
     std::vector<Model*> list;
     // list = random_scene();
     // list = two_spheres_scene();
@@ -233,7 +294,8 @@ int main(int argc, char** argv){
     // list = earth_scene();
     // list = light_scene();
     // list = cornell_box_scene();
-    list = cornell_box_smoke_scene();
+    // list = cornell_box_smoke_scene();
+    list = final_scene();
     
     std::string filename = make_filename(res_x, res_y, num_samples, max_reflections);
 
