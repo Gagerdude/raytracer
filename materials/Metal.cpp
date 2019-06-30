@@ -2,7 +2,7 @@
 
 Metal::Metal(Texture* a, double f){
     albedo = a;
-    if(f > 1){
+    if(f < 1){
         fuzz = 1;
     } else {
         fuzz = f;
